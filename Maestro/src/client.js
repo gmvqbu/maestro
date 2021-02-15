@@ -49,7 +49,7 @@ class MaestroClient extends Client {
     }
 
     async #fetchOwner(ownerID) {
-        if (!match(ownerID, 'ID_RESOLVABLE')) throw Error(`The provided owner id syntax is incorrect.`);
+        if (!match(ownerID, 'ID_PATTERN')) throw Error(`The provided owner id syntax is incorrect.`);
         const user = await this.users.fetch(ownerID);
         if (!user) throw Error(`Could not find the bot owner.`);
         return new User(this, user);
