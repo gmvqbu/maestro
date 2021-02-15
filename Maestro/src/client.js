@@ -2,6 +2,7 @@
 
 const { Client } = require("discord.js");
 const User = require("../infrastructure/User/User");
+const { match } = require("../util/util");
 const MaestroDispatcher = require("./dispatcher");
 const MaestroRegistry = require("./registry");
 
@@ -48,10 +49,9 @@ class MaestroClient extends Client {
     }
 
     async #fetchOwner(ownerID) {
-        const userIDRegExp = /^\d+$/;
-        if (!ownerID.match(userIDRegExp)) throw Error(`The provided owner ID is incorrect.`);
+        if (!match(ownerID, 'ID_RESOLVABLE')) throw Error(`The provided owner id syntax is incorrect.`);
         const user = await this.users.fetch(ownerID);
-        if (!user) throw Error(`Could not find the bot owner.`)
+        if (!user) throw Error(`Could not find the bot owner.`);
         return new User(this, user);
     }
 
