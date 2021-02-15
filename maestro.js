@@ -11,6 +11,7 @@ client.on('ready', () => {
     const bot = new User(client, client.user);
     console.log(`Logged in as ${bot.tag} !`);
 
+    if (!bot.matchUsername(Config.botUsername)) bot.updateUsername(Config.botUsername);
 });
 
 client.on('message', message => {
