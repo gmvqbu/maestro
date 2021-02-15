@@ -7,18 +7,18 @@ class MaestroClient extends Client {
     constructor(data = {}) {
 
         /**
-         * Le préfixe pour utiliser Maestro
+         * Le préfixe du bot
          * @readonly
          * @type {string}
          */
-        this.#commandPrefix = 'commandPrefix' in data ? data.commandPrefix : null;
+        this.#prefix = 'prefix' in data ? data.prefix : null;
 
         /**
          * L'id du propriétaire du bot
          * @readonly
          * @type {int}
          */
-        this.#botOwner = 'botOwner' in data ? data.botOwner : null;
+        this.#owner = 'owner' in data ? data.owner : null;
 
     }
 
