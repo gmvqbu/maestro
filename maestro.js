@@ -1,16 +1,24 @@
 'use strict';
 
-const Discord = require('discord.js');
-const { Client } = require('./Maestro/');
-const token = null;
+const { Client, Config, User } = require('./Maestro/');
 
-const bot = new Client({
-    prefix: '!',
-    owner: '757632847128428546'
-})
+const client = new Client({
+    prefix: Config.botPrefix,
+    ownerID: Config.botOwner
+});
 
-bot.on('ready', function () {
-    console.log(`Logged in as ${bot.user.tag} !`)
-})
+client.on('ready', () => {
+    const bot = new User(client, client.user);
+    console.log(`Logged in as ${bot.tag} !`);
 
-bot.login(token);
+});
+
+client.on('message', message => {
+
+    /*
+        Vérifier si ça matche
+    */
+
+});
+
+client.login(Config.botToken);
