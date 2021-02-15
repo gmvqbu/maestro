@@ -1,12 +1,26 @@
 'use strict';
 
 const { Client } = require("discord.js");
-const User = require("../../infrastructure/User/User");
+const User = require("../infrastructure/User/User");
+const MaestroDispatcher = require("./dispatcher");
+const MaestroRegistry = require("./registry");
 
 class MaestroClient extends Client {
 
     constructor(data = {}) {
         super()
+
+        /**
+         * Le registre de commandes
+         * @type {MaestroRegistry}
+         */
+        this.registry = new MaestroRegistry(this);
+
+        /**
+         * Le dispatcher
+         * @type {MaestroDispatcher}
+         */
+        this.dispatcher = new MaestroDispatcher(this, this.registry);
 
         /**
          * Le préfixe du bot
@@ -28,6 +42,8 @@ class MaestroClient extends Client {
          * @type {User}
          */
         this.owner = this.ownerID ? this.#fetchOwner(data.ownerID) : null;
+
+        this.on('message', message => { this.dispatcher.handleMessage(message); });
 
     }
 
