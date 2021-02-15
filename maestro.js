@@ -14,12 +14,4 @@ client.on('ready', () => {
     if (!bot.matchUsername(Config.botUsername)) bot.updateUsername(Config.botUsername);
 });
 
-client.on('message', message => {
-
-    /*
-        Vérifier si ça matche
-    */
-
-});
-
 client.login(Config.botToken);
