@@ -1,13 +1,16 @@
 'use strict';
 
-const { Client } = require("discord.js");
-const User = require("../infrastructure/User/User");
-const { match } = require("../util/util");
+const Discord = require("discord.js");
+const User = require("../infrastructure/User/UserService");
 const MaestroDispatcher = require("./dispatcher");
 const MaestroRegistry = require("./registry");
 
-class MaestroClient extends Client {
-
+/**
+ * Extends the Discord Client
+ * @class
+ * @extends Discord.Client
+ */
+class MaestroClient extends Discord.Client {
     constructor(data = {}) {
         super()
 
@@ -40,21 +43,12 @@ class MaestroClient extends Client {
         /**
          * Le propriétaire du bot
          * @readonly
-         * @type {User}
+         * @type {AnyUser}
          */
-        this.owner = this.ownerID ? this.#fetchOwner(data.ownerID) : null;
+        if (this.ownerID) User.fetch(this, this.ownerID).then(user => this.owner = user);
 
         this.on('message', message => { this.dispatcher.handleMessage(message); });
-
     }
-
-    async #fetchOwner(ownerID) {
-        if (!match(ownerID, 'ID_PATTERN')) throw Error(`The provided owner id syntax is incorrect.`);
-        const user = await this.users.fetch(ownerID);
-        if (!user) throw Error(`Could not find the bot owner.`);
-        return new User(this, user);
-    }
-
 }
 
 module.exports = MaestroClient;
