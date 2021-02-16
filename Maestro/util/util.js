@@ -3,12 +3,24 @@
 const { RegularExpressions } = require('../util/constants');
 
 /**
- * Match a register regex
+ * Comparison beetween two strings
+ * @function
+ * @param {string} value1
+ * @param {string} value2
+ */
+function matchString(value1, value2) {
+    return (value1 === value2);
+}
+
+/**
+ * Match a registered regex
+ * @function
  * @param {*} value
  * @param {string} key
  * @param {*} args
+ * @returns {Boolean}
  */
-function match(value, key, ...args) {
+function matchRegex(value, key, ...args) {
     if (typeof key != 'string') throw Error(`Regex key must be a string.`);
     const regex = RegularExpressions.get(key);
     if (typeof regex === 'function') return value.match(regex(...args)) ? true : false;
@@ -16,12 +28,20 @@ function match(value, key, ...args) {
     return value.match(regex) ? true : false;
 }
 
-function matchCustom(value, regex) {
+/**
+ * Match a custom regex
+ * @function
+ * @param {*} value
+ * @param {RegExp} regex
+ * @returns {Boolean}
+ */
+function matchCustomRegex(value, regex) {
     if (!(regex instanceof RegExp)) throw Error(`Regular expression must be an instance of RegExp`);
     return value.match(regex) ? true : false;
 }
 
 module.exports = {
-    match,
-    matchCustom
+    matchString,
+    matchRegex,
+    matchCustomRegex,
 }
