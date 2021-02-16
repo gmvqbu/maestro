@@ -1,6 +1,6 @@
 'use strict';
 
-const BaseConfig = require('../Base');
+const BaseConfig = require('./Base');
 
 /**
  * Représente la configuration du bot

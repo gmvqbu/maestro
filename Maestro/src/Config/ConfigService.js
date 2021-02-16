@@ -1,6 +1,6 @@
 'use strict';
 
-const BotConfig = require("./Bot/BotConfig");
+const BotConfig = require("./BotConfig");
 
 /**
  * Représente l'interface d'interaction avec la configuration globale
