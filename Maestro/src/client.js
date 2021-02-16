@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require("discord.js");
-const User = require("../infrastructure/User/UserService");
+const User = require("./User/UserService");
 const MaestroDispatcher = require("./dispatcher");
 const MaestroRegistry = require("./registry");
 

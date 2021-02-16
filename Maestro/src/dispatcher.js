@@ -1,10 +1,13 @@
 'use strict';
 
-const { match, matchCustom } = require('../util/util');
-const Message = require('./Message/Message');
+const Discord = require('discord.js');
+const { matchRegex } = require('../util/util');
 
+/**
+ * Dispatch tasks through the app
+ * @class
+ */
 class MaestroDispatcher {
-
     constructor(client, registry) {
 
         /**
@@ -18,22 +21,27 @@ class MaestroDispatcher {
         this.registry = registry;
     }
 
+    /**
+     *
+     * @public
+     * @method
+     * @param {Discord.Message} message
+     */
     handleMessage(message) {
         if (message.author.bot) return;
-        if (match(message.content, 'COMMAND_PATTERN', this.client.prefix)) {
+        if (matchRegex(message.content, 'COMMAND_PATTERN', this.client.prefix)) {
 
             const parsedContent = this.parseMessage(this.client.prefix, message.content);
-            const command = this.fetch(parsedContent.command);
-            if (!command) return message.reply(`Cette commande n'existe pas`)
+            const command = this.fetchCommand(parsedContent.command);
+            if (!command) return message.reply(`Cette commande n'existe pas`);
             const args = this.normalizeArguments(parsedContent.args);
-            console.log(command, args)
 
             return;
             // Trouver une méthode intelligente pour parser le message
             // et renvoyer la commande et les arguments séparément
-            const parsedContent = this.parseMessage(this.client.prefix, message.content);
-            const command = parsedContent.command;
-            const args = parsedContent.args;
+            parsedContent = this.parseMessage(this.client.prefix, message.content);
+            command = parsedContent.command;
+            args = parsedContent.args;
 
         }
     }
@@ -57,17 +65,12 @@ class MaestroDispatcher {
             args: parsedContent
         }
         return {
-            command: this.fetch(parsedContent.shift()),
+            command: this.registry.fetchCommand(parsedContent.shift()), // le registre cherche dans les commandes et les alias
             arg: this.normalizeArguments(parsedContent)
         }
     }
 
-    /**
-     * Fetches the requested command
-     * @param {string} commandName
-     * @returns {Object}
-     */
-    fetch(commandName) {
+    fetchCommand(commandName) {
         return {
             name: commandName
         }
@@ -82,7 +85,6 @@ class MaestroDispatcher {
         }
         return myObject;
     }
-
 }
 
 module.exports = MaestroDispatcher;
