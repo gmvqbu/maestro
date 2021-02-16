@@ -9,9 +9,6 @@ module.exports = {
     // Config
     Config: require('./src/Config/ConfigService'),
 
-    // App
-    Message: require('./src/Message/Message'),
-
     // Tools
-    User: require('./infrastructure/User/UserService')
+    User: require('./src/User/UserService')
 }
