@@ -1,6 +1,7 @@
 'use strict';
 
 const { Client, Config, User } = require('./Maestro/');
+const { matchString, matchRegex } = require('./Maestro/util/util');
 
 const client = new Client({
     prefix: Config.botPrefix,
@@ -8,10 +9,10 @@ const client = new Client({
 });
 
 client.on('ready', () => {
-    const bot = new User(client, client.user);
+    const bot = User.bot(client, client.user);
     console.log(`Logged in as ${bot.tag} !`);
 
-    if (!bot.matchUsername(Config.botUsername)) bot.updateUsername(Config.botUsername);
+    if (!matchString(bot.username, Config.botUsername)) bot.updateUsername(Config.botUsername);
 });
 
 client.login(Config.botToken);
