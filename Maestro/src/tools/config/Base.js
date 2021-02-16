@@ -12,7 +12,7 @@ class BaseConfig {
      * @readonly
      * @type {Object<Object>}
      */
-    static config = require('../../../config/config.json');
+    static config = require('../../../../config/config.json');
 
 }
 

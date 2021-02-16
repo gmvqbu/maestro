@@ -3,6 +3,10 @@
 class MaestroRegistry {
 
     constructor(client) {
+
+        /**
+         * @type {MaestroClient}
+         */
         this.client = client;
     }
 

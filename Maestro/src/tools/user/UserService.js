@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require("discord.js");
-const { matchRegex } = require("../../util/util");
+const { matchRegex } = require("../../../util/util");
 const AnyUser = require("./AnyUser");
 const BotUser = require("./BotUser");
 

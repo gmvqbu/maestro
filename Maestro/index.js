@@ -2,13 +2,13 @@
 
 module.exports = {
     // Core
-    Client: require('./src/client'),
-    Dispatcher: require('./src/dispatcher'),
-    Registry: require('./src/registry'),
+    Client: require('./src/core/client'),
+    Dispatcher: require('./src/core/dispatcher'),
+    Registry: require('./src/core/registry'),
 
     // Config
-    Config: require('./src/Config/ConfigService'),
+    Config: require('./src/tools/config/ConfigService'),
 
     // Tools
-    User: require('./src/User/UserService')
+    User: require('./src/tools/User/UserService')
 }

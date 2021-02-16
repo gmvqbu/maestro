@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require('discord.js');
-const { matchRegex } = require('../util/util');
+const { matchRegex } = require('../../util/util');
 
 /**
  * Dispatch tasks through the app
