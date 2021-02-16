@@ -1,25 +1,12 @@
 'use strict';
 
-const { ClientUser } = require("discord.js");
+const AnyUser = require("./AnyUser");
 
-/**
- * Represents a user
- * @public
- * @class
- */
-class UserService extends ClientUser {
+class BotUser extends AnyUser {
 
     constructor(client, user) {
+        if (!user.bot) throw Error(`This class can only be instantiated for this bot.`);
         super(client, user);
-    }
-
-    /**
-     * Wether the username match or not
-     * @param {string} expected The expected username
-     * @returns {Boolean}
-     */
-    matchUsername(username) {
-        return (this.username === username);
     }
 
     /**
@@ -35,4 +22,4 @@ class UserService extends ClientUser {
 
 }
 
-module.exports = UserService;
+module.exports = BotUser;
