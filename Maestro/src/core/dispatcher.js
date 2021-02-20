@@ -30,26 +30,15 @@ class MaestroDispatcher {
     handleMessage(message) {
         if (message.author.bot) return;
         if (matchRegex(message.content, 'COMMAND_PATTERN', this.client.prefix)) {
-
-            const parsedContent = this.parseMessage(this.client.prefix, message.content);
-            const command = this.fetchCommand(parsedContent.command);
-            if (!command) return message.reply(`Cette commande n'existe pas`);
-            const args = this.normalizeArguments(parsedContent.args);
-
-            return;
-            // Trouver une méthode intelligente pour parser le message
-            // et renvoyer la commande et les arguments séparément
-            parsedContent = this.parseMessage(this.client.prefix, message.content);
-            command = parsedContent.command;
-            args = parsedContent.args;
-
+            const command = this.parseMessage(this.client.prefix, message.content);
+            if (!command) return message.reply(`Cette commande n'existe pas.`);
         }
     }
 
     /**
      * Represent the parsed message content
      * @typedef {Object} ParsedContent
-     * @property {string} command The fetched command
+     * @property {string} name The fetched command name
      * @property {Array<string>} args The parsed arguments
      */
     /**
@@ -60,13 +49,12 @@ class MaestroDispatcher {
      */
     parseMessage(prefix, message) {
         let parsedContent = message.substring(prefix.length).split(' ');
+        const command = this.registry.fetch(parsedContent.shift());
+        if (!command) return `Unknown command`;
+        const args = this.normalizeArguments(parsedContent);
         return {
-            command: parsedContent.shift(),
-            args: parsedContent
-        }
-        return {
-            command: this.registry.fetchCommand(parsedContent.shift()), // le registre cherche dans les commandes et les alias
-            arg: this.normalizeArguments(parsedContent)
+            command: command,
+            args: args
         }
     }
 
