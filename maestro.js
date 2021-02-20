@@ -1,12 +1,21 @@
 'use strict';
 
 const { Client, Config, User } = require('./Maestro/');
-const { matchString, matchRegex } = require('./Maestro/util/util');
+const { matchString } = require('./Maestro/util/util');
 
 const client = new Client({
     prefix: Config.botPrefix,
-    ownerID: Config.botOwner
+    ownerID: Config.botOwner,
+    commandPath: './Maestro/commands'
 });
+
+client.registry
+    .registerGroups([
+        { id: 'mod', name: 'Modération'}
+    ])
+    .registerCommands([
+        require('./Maestro/commands/mod/ping.js')
+    ]);
 
 client.on('ready', () => {
     const bot = User.bot(client, client.user);
