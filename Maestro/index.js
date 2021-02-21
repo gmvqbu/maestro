@@ -2,9 +2,9 @@
 
 module.exports = {
     // Core
-    Client: require('./src/core/client'),
-    Dispatcher: require('./src/core/dispatcher'),
-    Registry: require('./src/core/registry'),
+    Client: require('./src/client'),
+    Dispatcher: require('./src/dispatcher'),
+    Registry: require('./src/registry'),
 
     // Config
     Config: require('./src/tools/config/ConfigService'),

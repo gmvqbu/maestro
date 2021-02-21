@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require("discord.js");
-const User = require("../tools/User/UserService");
+const User = require("./tools/User/UserService");
 const Dispatcher = require("./dispatcher");
 const Registry = require("./registry");
 

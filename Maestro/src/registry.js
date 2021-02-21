@@ -1,6 +1,6 @@
 'use strict';
 
-const BaseCommand = require("../../commands/Base");
+const BaseCommand = require("../commands/Base");
 
 class Registry {
     /**
