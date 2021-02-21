@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require('discord.js');
-const { matchRegex } = require('../../util/util');
+const { matchRegex } = require('../util/util');
 
 /**
  * Dispatch tasks through the app
@@ -47,20 +47,14 @@ class Dispatcher {
      * @param {string} message
      * @returns {ParsedContent} The parsed content
      */
-    parseMessage(prefix, message) {
+    async parseMessage(prefix, message) {
         let parsedContent = message.substring(prefix.length).split(' ');
-        const command = this.registry.fetch(parsedContent.shift());
+        const command = await this.registry.fetch(parsedContent.shift());
         if (!command) return `Unknown command`;
         const args = this.normalizeArguments(parsedContent);
         return {
             command: command,
             args: args
-        }
-    }
-
-    fetchCommand(commandName) {
-        return {
-            name: commandName
         }
     }
 
