@@ -5,17 +5,14 @@ const { matchString } = require('./Maestro/util/util');
 
 const client = new Client({
     prefix: Config.botPrefix,
-    ownerID: Config.botOwner,
-    commandPath: './Maestro/commands'
+    ownerID: Config.botOwner
 });
 
-client.registry
-    .registerGroups([
-        { id: 'mod', name: 'Modération'}
-    ])
-    .registerCommands([
-        require('./Maestro/commands/mod/ping.js')
-    ]);
+client.registry.registerCommands([
+    require('./Maestro/commands/mod/ping.js'),
+    require('./Maestro/commands/mod/pong.js'),
+    require('./Maestro/commands/mod/pingpong.js')
+]);
 
 client.on('ready', () => {
     const bot = User.bot(client, client.user);
