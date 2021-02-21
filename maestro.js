@@ -8,14 +8,12 @@ const client = new Client({
     ownerID: Config.botOwner
 });
 
-client.registry.registerCommands([
-    require('./Maestro/commands/mod/ping.js'),
-    require('./Maestro/commands/mod/pong.js'),
-    require('./Maestro/commands/mod/pingpong.js')
-]);
+client.registry.registerCommand(
+    require('./Maestro/commands/mod/ping.js')
+);
 
 client.on('ready', () => {
-    const bot = User.bot(client, client.user);
+    const bot = new User(client, client.user);
     console.log(`Logged in as ${bot.tag} !`);
 
     if (!matchString(bot.username, Config.botUsername)) bot.updateUsername(Config.botUsername);
