@@ -22,50 +22,46 @@ class Dispatcher {
     }
 
     /**
-     *
+     * Handles any message from discord users
      * @public
      * @method
      * @param {Discord.Message} message
      */
-    handleMessage(message) {
+    async handleMessage(message) {
         if (message.author.bot) return;
         if (matchRegex(message.content, 'COMMAND_PATTERN', this.client.prefix)) {
-            const command = this.parseMessage(this.client.prefix, message.content);
-            if (!command) return message.reply(`Cette commande n'existe pas.`);
+            const error = await this.parseMessage(message, this.client.prefix);
+            if (error) message.reply(error);
         }
     }
 
-    /**
-     * Represent the parsed message content
-     * @typedef {Object} ParsedContent
-     * @property {string} name The fetched command name
-     * @property {Array<string>} args The parsed arguments
-     */
     /**
      * Parses the message content
      * @param {string} prefix
      * @param {string} message
      * @returns {ParsedContent} The parsed content
      */
-    async parseMessage(prefix, message) {
-        let parsedContent = message.substring(prefix.length).split(' ');
+    async parseMessage(message, prefix) {
+        const parsedContent = message.content.substring(prefix.length).split(' ');
         const command = await this.registry.fetchCommand(parsedContent.shift());
-        if (!command) return `Unknown command`;
-        const args = this.normalizeArguments(parsedContent);
-        return {
-            command: command,
-            args: args
-        }
+        if (!command) return `Cette commande n'existe pas.`;
+        Object.defineProperty(message, 'command', { value: command, writable: false });
+        const args = this.formatArguments(parsedContent, command);
+        if (typeof args === 'number') return `Il manque ${args} argument${args > 1 ? 's' : ''}.`;
+        Object.defineProperty(message, 'args', { value: args, writable: false });
     }
 
-    normalizeArguments(args) {
-        let myObject = new Object();
-        let i = 0;
-        for (const arg of args) {
-            myObject[`key${i}`] = arg;
-            i++;
+    formatArguments(args, command) {
+        const argsCount = command.argsCount;
+        // A VENIR : préciser quels arguments sont manquants dans un tableau avec le label
+        if (args.length < argsCount) return argsCount - args.length;
+        let keyedArgs = new Object();
+        for (let i = 0; i < argsCount; i++) {
+            const key = command.args[i].key;
+            // A VENIR : préparer les arguments de type ClientUser, GuildMember, VoiceChannel
+            keyedArgs[key] = args[i];
         }
-        return myObject;
+        return keyedArgs;
     }
 }
 
