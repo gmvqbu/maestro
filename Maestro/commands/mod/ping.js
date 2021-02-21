@@ -12,16 +12,13 @@ class PingCommand extends Command {
         super(client, {
             name: 'ping',
             alias: ['pi', 'p'],
-            group: 'mod',
-            args: [
-                {
-                    key: 'ville'
-                },
-                {
-                    key: 'pays'
-                }
-            ]
+            group: 'mod'
         });
+    }
+
+    run(msg) {
+        const ping = Math.round(this.client.ws.ping);
+        return msg.reply(`la latence actuelle est de \`${ping} ms\`.`);
     }
 }
 
