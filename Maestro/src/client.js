@@ -47,7 +47,7 @@ class MaestroClient extends Discord.Client {
          */
         if (this.ownerID) User.fetch(this, this.ownerID).then(user => this.owner = user);
 
-        this.on('message', message => { this.dispatcher.handleMessage(message); });
+        this.on('message', msg => { this.dispatcher.handleMessage(msg); });
     }
 }
 

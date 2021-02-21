@@ -25,30 +25,31 @@ class Dispatcher {
      * Handles any message from discord users
      * @public
      * @method
-     * @param {Discord.Message} message
+     * @param {Discord.Message} msg
      */
-    async handleMessage(message) {
-        if (message.author.bot) return;
-        if (matchRegex(message.content, 'COMMAND_PATTERN', this.client.prefix)) {
-            const error = await this.parseMessage(message, this.client.prefix);
-            if (error) message.reply(error);
+    async handleMessage(msg) {
+        if (msg.author.bot) return;
+        if (matchRegex(msg.content, 'COMMAND_PATTERN', this.client.prefix)) {
+            const error = await this.parseMessage(msg, this.client.prefix);
+            if (error) return msg.reply(error);
+            msg.command.run(msg, msg.args)
         }
     }
 
     /**
      * Parses the message content
      * @param {string} prefix
-     * @param {string} message
+     * @param {string} msg
      * @returns {ParsedContent} The parsed content
      */
-    async parseMessage(message, prefix) {
-        const parsedContent = message.content.substring(prefix.length).split(' ');
+    async parseMessage(msg, prefix) {
+        const parsedContent = msg.content.substring(prefix.length).split(' ');
         const command = await this.registry.fetchCommand(parsedContent.shift());
         if (!command) return `Cette commande n'existe pas.`;
-        Object.defineProperty(message, 'command', { value: command, writable: false });
+        Object.defineProperty(msg, 'command', { value: command, writable: false });
         const args = this.formatArguments(parsedContent, command);
         if (typeof args === 'number') return `Il manque ${args} argument${args > 1 ? 's' : ''}.`;
-        Object.defineProperty(message, 'args', { value: args, writable: false });
+        Object.defineProperty(msg, 'args', { value: args, writable: false });
     }
 
     formatArguments(args, command) {
