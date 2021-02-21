@@ -74,10 +74,13 @@ class Registry {
     fetchCommand(commandName) {
         return new Promise((resolve) => {
             // if the command name matches a command key (which is the command name)
-            if (this.commands.has(commandName)) resolve(this.commands.get(commandName))
+            let result = this.commands.get(commandName);
+            if (result) resolve(result)
             // If the command name matches any command alias
-            if (this.commands.find(cmd => cmd.alias.includes(commandName))) resolve(this.commands.get(command.name))
-            resolve(null);
+            result = this.commands.find(cmd => cmd.alias.includes(commandName));
+            if (result) resolve(result);
+            // Unknown command
+            resolve(null)
         })
     }
 }
