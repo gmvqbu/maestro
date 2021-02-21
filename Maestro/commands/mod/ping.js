@@ -1,21 +1,28 @@
 'use strict';
 
-const BaseCommand = require('../Base');
+const Command = require('../../src/command');
 
 /**
  * @class
- * @extends BaseCommand
+ * @extends Command
  */
-class PingCommand extends BaseCommand {
+class PingCommand extends Command {
 
     constructor(client) {
         super(client, {
             name: 'ping',
             alias: ['pi', 'p'],
-            group: 'mod'
-        })
+            group: 'mod',
+            args: [
+                {
+                    key: 'ville'
+                },
+                {
+                    key: 'pays'
+                }
+            ]
+        });
     }
-
 }
 
 module.exports = PingCommand;
