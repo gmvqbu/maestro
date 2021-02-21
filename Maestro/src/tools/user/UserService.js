@@ -1,9 +1,8 @@
 'use strict';
 
-const Discord = require("discord.js");
 const { matchRegex } = require("../../../util/util");
 const AnyUser = require("./AnyUser");
-const BotUser = require("./BotUser");
+const MaestroUser = require("./MaestroUser");
 
 /**
  * Represent a user
@@ -12,24 +11,12 @@ const BotUser = require("./BotUser");
 class UserService {
 
     /**
-     * Creates a User object for bot client only
-     * Used for this client only
      * @param {MaestroClient} client
-     * @param {Discord.ClientUser} user
-     * @return {BotUser}
+     * @param {ClientUser} user
      */
-    static bot(client, user) {
-        return new BotUser(client, user);
-    }
-
-    /**
-     * Creates a User object from any Disord user
-     * @param {MaestroClient} client
-     * @param {Discord.ClientUser} user
-     * @return {AnyUser}
-     */
-    static any(client, user) {
-        return new AnyUser(client, user);
+    constructor(client, user) {
+        if (user.equals(client.user)) return new MaestroUser(client, user);
+        else return new AnyUser(client, user);
     }
 
     /**
@@ -43,10 +30,9 @@ class UserService {
             if (!matchRegex(userID, 'ID_PATTERN')) reject(`The provided owner id syntax is incorrect.`);
             const user = await client.users.fetch(userID);
             if (!user) reject(`Could not find the bot owner.`);
-            resolve(this.any(this, user));
+            resolve(new this(this, user));
         });
     }
-
 }
 
 module.exports = UserService;

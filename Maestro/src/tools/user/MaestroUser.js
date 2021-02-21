@@ -2,7 +2,7 @@
 
 const AnyUser = require("./AnyUser");
 
-class BotUser extends AnyUser {
+class MaestroUser extends AnyUser {
 
     constructor(client, user) {
         if (!user.bot) throw Error(`This class can only be instantiated for this bot.`);
@@ -22,4 +22,4 @@ class BotUser extends AnyUser {
 
 }
 
-module.exports = BotUser;
+module.exports = MaestroUser;
