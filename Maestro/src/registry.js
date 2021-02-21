@@ -54,7 +54,7 @@ class Registry {
      * @param {string} commandName The name of the command to search
      * @returns {Promise<Command>} The fetched command
      */
-    fetch(commandName) {
+    fetchCommand(commandName) {
         return new Promise((resolve, reject) => {
             // if the command name matches a command key (which is the command name)
             if (this.commands.has(commandName)) resolve(this.commands.get(commandName))

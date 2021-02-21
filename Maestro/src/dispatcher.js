@@ -49,7 +49,7 @@ class Dispatcher {
      */
     async parseMessage(prefix, message) {
         let parsedContent = message.substring(prefix.length).split(' ');
-        const command = await this.registry.fetch(parsedContent.shift());
+        const command = await this.registry.fetchCommand(parsedContent.shift());
         if (!command) return `Unknown command`;
         const args = this.normalizeArguments(parsedContent);
         return {
