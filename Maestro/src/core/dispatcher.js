@@ -7,7 +7,7 @@ const { matchRegex } = require('../../util/util');
  * Dispatch tasks through the app
  * @class
  */
-class MaestroDispatcher {
+class Dispatcher {
     constructor(client, registry) {
 
         /**
@@ -16,7 +16,7 @@ class MaestroDispatcher {
         this.client = client;
 
         /**
-         * @type {MaestroRegistry}
+         * @type {Registry}
          */
         this.registry = registry;
     }
@@ -75,4 +75,4 @@ class MaestroDispatcher {
     }
 }
 
-module.exports = MaestroDispatcher;
+module.exports = Dispatcher;
