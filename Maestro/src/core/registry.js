@@ -1,71 +1,52 @@
 'use strict';
 
-class MaestroRegistry {
+const BaseCommand = require("../../commands/Base");
+
+class Registry {
+    /**
+     * The current client
+     * @type {MaestroClient}
+     */
+    client;
 
     /**
-     * All the registered groups
-     * @type {Map}
+     * The registered commands
+     * @type {Map<string, BaseCommand>}
      */
-    commandGroups = new Map();
+    commands = new Map();
 
-    constructor(client, commandPath = '../../commands') {
+    /**
+     * The registered groups
+     * @type {Map<string, BaseCommand>}
+     */
+    groups = new Map();
 
-        /**
-         * @type {MaestroClient}
-         */
-        this.client = client;
-
-        /**
-         * The path where the commands are stored
-         * @type {string}
-         */
-        this.commandPath = commandPath;
+    constructor(client) {
+        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**
-     * Register a single command group
-     * @param {Object} group
-     */
-    registerGroup(group) {
-        const id = 'id' in group ? group.id : null;
-        const name = 'name' in group ? group.name : null;
-        if (!id || !name) throw Error(`Can't register an undefined command.`)
-        if (this.commandGroups.get(id)) throw Error(`The group ${group.id} is already registered.`)
-        this.commandGroups.set(id, { name: name });
-        return this;
-    }
-
-    /**
-     * Registers all the passed command groups
-     * @param {Array<Object>} groups
-     */
-    registerGroups(groups) {
-        if (!Array.isArray(groups)) throw Error(`Group list must be an array.`)
-        groups.forEach(group => {
-            this.registerGroup(group);
-        });
-        return this;
-    }
-
-    /**
-     * Register a command
-     * @param {*} command
+     * Register a single command
+     * @param {string} command The command to register
      */
     registerCommand(command) {
-        // new command(this.client)
-        return this;
+        if (!BaseCommand.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending BaseCommand.`);
+        command = new command(this.client);
+        if (this.commands.has(command.name)) throw Error(`The command ${command.name} is already registered.`);
+        this.commands.set(command.name, command);
+        if (!this.groups.has(command.group)) this.groups.set(command.group, new Array())
+        this.groups.get(command.group).push(command);
     }
 
     /**
-     * Registers all the passed commands
-     * @param {Array} command
+     * Register all the passed
+     * @param {Array<Object>} commands The commands to register
      */
-    registerCommands(command) {
-        if (!Array.isArray(command)) throw Error(`Command list must be an array.`);
-        command.forEach(command => {
+    registerCommands(commands) {
+        if (!Array.isArray(commands)) throw Error(`Command list must be an array.`);
+        commands.forEach(command => {
             this.registerCommand(command);
         });
-        return this;
     }
 
     /**
@@ -80,4 +61,4 @@ class MaestroRegistry {
     }
 }
 
-module.exports = MaestroRegistry;
+module.exports = Registry;
