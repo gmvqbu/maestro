@@ -8,9 +8,9 @@ const client = new Client({
     ownerID: Config.botOwner
 });
 
-client.registry.registerCommand(
-    require('./Maestro/commands/mod/ping.js')
-);
+client.registry.registerCommands([
+    require('./Maestro/commands/util/ping.js')
+]);
 
 client.on('ready', () => {
     const bot = new User(client, client.user);

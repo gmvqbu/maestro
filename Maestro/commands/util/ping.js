@@ -11,8 +11,7 @@ class PingCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'ping',
-            alias: ['pi', 'p'],
-            group: 'mod'
+            group: 'util'
         });
     }
 
