@@ -2,8 +2,8 @@
 
 const Discord = require("discord.js");
 const User = require("../tools/User/UserService");
-const MaestroDispatcher = require("./dispatcher");
-const MaestroRegistry = require("./registry");
+const Dispatcher = require("./dispatcher");
+const Registry = require("./registry");
 
 /**
  * Extends the Discord Client
@@ -18,13 +18,13 @@ class MaestroClient extends Discord.Client {
          * Le registre de commandes
          * @type {MaestroRegistry}
          */
-        this.registry = new MaestroRegistry(this);
+        this.registry = new Registry(this);
 
         /**
          * Le dispatcher
-         * @type {MaestroDispatcher}
+         * @type {Dispatcher}
          */
-        this.dispatcher = new MaestroDispatcher(this, this.registry);
+        this.dispatcher = new Dispatcher(this, this.registry);
 
         /**
          * Le préfixe du bot
