@@ -56,7 +56,13 @@ class Registry {
      */
     fetch(commandName) {
         return new Promise((resolve, reject) => {
-            resolve(commandName);
+            // if the command name matches a command key (which is the command name)
+            if (this.commands.has(commandName)) resolve(this.commands.get(commandName))
+            // If the command name matches any command alias
+            for (const command of this.commands.values()) {
+                if (command.alias.includes(commandName)) resolve(this.commands.get(command.name))
+            }
+            reject();
         })
     }
 }
