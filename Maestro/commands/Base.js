@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class BaseCommand {
+class BaseCommand {
 
     /**
      * The current client
@@ -48,3 +48,5 @@ module.exports = class BaseCommand {
     }
 
 }
+
+module.exports = BaseCommand;

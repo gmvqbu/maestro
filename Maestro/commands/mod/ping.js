@@ -6,7 +6,7 @@ const BaseCommand = require('../Base');
  * @class
  * @extends BaseCommand
  */
-module.exports = class PingCommand extends BaseCommand {
+class PingCommand extends BaseCommand {
 
     constructor(client) {
         super(client, {
@@ -17,3 +17,5 @@ module.exports = class PingCommand extends BaseCommand {
     }
 
 }
+
+module.exports = PingCommand;
