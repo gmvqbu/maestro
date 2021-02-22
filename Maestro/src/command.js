@@ -12,8 +12,8 @@ class Command {
 
     /**
      * @typedef {Object} CommandInfo
-     * @property {string} name The command name
-     * @property {string} group The command group
+     * @property {string} name Command name
+     * @property {string} group Command group
      * @property {Array<string>} alias Command alias/aliases
      * @property {Array<object>} args Command arguments
      */
@@ -53,7 +53,7 @@ class Command {
          * Command arguments
          * @type {Array<Argument>}
          */
-        this.args = 'args' in data ? this.#createArguments(data.args) : null;
+        this.args = 'args' in data ? this.#buildArguments(data.args) : null;
 
         /**
          * Argument count
@@ -62,10 +62,17 @@ class Command {
         this.argsCount = this.args ? this.args.length : 0;
     }
 
-    #createArguments(args) {
+    /**
+     * Build all the arguments into the Argument object
+     * @private
+     * @param {Array<ArgumentInfo>} args
+     */
+    #buildArguments(args) {
         if (!Array.isArray(args)) throw Error(`Command arguments must be an array.`);
-        for (let i = 0; i < args.length; i++) {
-            args[i] = new Argument(args[i]);
+        if (args.length > 0) {
+            args.forEach((data, k) => {
+                args[k] = new Argument(data);
+            });
         }
         return args;
     }
