@@ -33,12 +33,18 @@ class Registry {
      * Register a single command
      * @param {Function|Object} command The command to register
      */
-    registerCommand(command) {
+    async registerCommand(command) {
         if (!BaseCommand.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending BaseCommand.`);
         command = new command(this.client);
-        // Check if any cmd keyword is already registered
-        if(this.alreadyRegistered(command.name)) throw Error(`Command name ${command.name} is already registered.`);
-        command.alias.forEach(alias => { if(this.alreadyRegistered(alias)) throw Error(`Alias ${command.name}:${alias} is already registered.`); });
+        // Browse the registry for any command keyword conflict
+        const keywords = new Array(command.name).concat(command.alias)
+        keywords.forEach((keyword) => {
+            if (
+                this.commands.has(keyword)
+                ||
+                this.commands.some(cmd => cmd.alias.includes(keyword))
+            ) throw Error(`Command keyword ${keyword} is already registered.`);
+        })
         // Test passed successfully : we can register the command
         this.commands.set(command.name, command);
         if (!this.groups.has(command.group)) this.groups.set(command.group, new Array())
@@ -54,16 +60,6 @@ class Registry {
         for (const command of commands) {
             this.registerCommand(command);
         }
-    }
-
-    /**
-     * Check if the keyword is already registered
-     * @param {string} keyword
-     * @returns {Boolean}
-     */
-    alreadyRegistered(keyword) {
-        // Check if we find the keyword wether in a registered key or an alias
-        return (this.commands.has(keyword) || this.commands.find(cmd => cmd.alias.includes(keyword))) ? true : false;
     }
 
     /**
