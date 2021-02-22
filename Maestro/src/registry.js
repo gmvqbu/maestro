@@ -37,7 +37,7 @@ class Registry {
         if (!BaseCommand.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending BaseCommand.`);
         command = new command(this.client);
         // Browse the registry for any command keyword conflict
-        const keywords = new Array(command.name).concat(command.alias)
+        const keywords = new Array(command.name).concat(command.alias ?? null);
         keywords.forEach((keyword) => {
             if (
                 this.commands.has(keyword)
