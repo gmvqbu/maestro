@@ -33,17 +33,13 @@ class Registry {
      * Register a single command
      * @param {Function|Object} command The command to register
      */
-    async registerCommand(command) {
+    registerCommand(command) {
         if (!BaseCommand.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending BaseCommand.`);
         command = new command(this.client);
         // Browse the registry for any command keyword conflict
         const keywords = new Array(command.name).concat(command.alias ?? null);
         keywords.forEach((keyword) => {
-            if (
-                this.commands.has(keyword)
-                ||
-                this.commands.some(cmd => cmd.alias.includes(keyword))
-            ) throw Error(`Command keyword ${keyword} is already registered.`);
+            if (this.fetchCommand(keyword) ? true : false) throw Error(`Command keyword ${keyword} is already registered.`);
         })
         // Test passed successfully : we can register the command
         this.commands.set(command.name, command);
@@ -67,11 +63,9 @@ class Registry {
      * @param {string} commandName The name or alias of the requested command
      * @returns {Promise<Command>} The fetched command
      */
-    fetchCommand(commandName) {
-        return new Promise((resolve) => {
-            if (this.commands.has(commandName)) resolve(this.commands.get(commandName));
-            resolve(this.commands.find(cmd => cmd.alias.includes(commandName)) ?? null);
-        });
+    fetchCommand(keyword) {
+        if (this.commands.has(keyword)) return this.commands.get(keyword);
+        return this.commands.find(cmd => cmd.alias.includes(keyword)) ?? null;
     }
 }
 
