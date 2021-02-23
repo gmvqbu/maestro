@@ -35,6 +35,15 @@ class Registry {
     get types() {
         return this.typeManager;
     }
+
+    /**
+     * Launch the registerDefaults of each manager
+     */
+    registerDefaults() {
+        this.commandManager.registerDefaults();
+        this.typeManager.registerDefaults();
+    }
+
 }
 
 module.exports = Registry;

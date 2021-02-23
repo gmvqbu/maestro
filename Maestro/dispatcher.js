@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require('discord.js');
-const ArgumentCollector = require('../commands/collector');
+const ArgumentCollector = require('./commands/collector');
 
 /**
  * Dispatch tasks through the app
