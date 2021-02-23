@@ -1,9 +1,18 @@
 'use strict';
 
-const BaseType = require("../types/type");
+const BaseType = require('../types/base');
 const BaseManager = require("./BaseManager");
 
 class TypeManager extends BaseManager {
+
+    /**
+     * Register the default types
+     */
+    registerDefaults() {
+        super.register([
+            require('../types/string')
+        ])
+    }
 
     /**
      * Verify any type before save

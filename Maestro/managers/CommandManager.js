@@ -6,13 +6,13 @@ const BaseManager = require("./BaseManager");
 class CommandManager extends BaseManager {
 
     /**
-     * Fetch a command
-     * @param {string} commandName The name or alias of the requested command
-     * @returns {Object|null} The fetched command
+     * Register the default commands
      */
-    get(key) {
-        if (super.get(key)) return super.get(key);
-        return this.collection.find(cmd => cmd.alias.includes(key)) ?? null;
+    registerDefaults() {
+        super.register([
+            require('../commands/util/ping'),
+            require('../commands/test/command')
+        ])
     }
 
     /**
@@ -30,6 +30,16 @@ class CommandManager extends BaseManager {
             key: command.name,
             value: command
         };
+    }
+
+    /**
+     * Fetch a command
+     * @param {string} commandName The name or alias of the requested command
+     * @returns {Object|null} The fetched command
+     */
+    get(key) {
+        if (super.get(key)) return super.get(key);
+        return this.collection.find(cmd => cmd.alias.includes(key)) ?? null;
     }
 
 }
