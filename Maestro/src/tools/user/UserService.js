@@ -1,8 +1,8 @@
 'use strict';
 
-const { matchRegex } = require("../../../util/util");
 const AnyUser = require("./AnyUser");
 const MaestroUser = require("./MaestroUser");
+const ID_PATTERN = new RegExp('^\\d+$');
 
 /**
  * Represent a user
@@ -27,9 +27,9 @@ class UserService {
      */
     static fetch(client, userID) {
         return new Promise(async (resolve, reject) => {
-            if (!matchRegex(userID, 'ID_PATTERN')) reject(`The provided owner id syntax is incorrect.`);
+            if (!userID.match(ID_PATTERN)) reject(`The provided owner id syntax is incorrect.`);
             const user = await client.users.fetch(userID);
-            if (!user) reject(`Could not find the bot owner.`);
+            if (!user) reject(`Could not find the specified user.`);
             resolve(new this(this, user));
         });
     }
