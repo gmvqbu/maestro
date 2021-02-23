@@ -46,7 +46,7 @@ class Command {
          * Command aliases
          * @type {Array<string>}
          */
-        this.alias = 'alias' in data ? data.alias : null;
+        this.alias = 'alias' in data ? data.alias : [];
         if (this.alias && !Array.isArray(this.alias)) throw Error(`Command alias must be an array of aliases.`);
 
         /**

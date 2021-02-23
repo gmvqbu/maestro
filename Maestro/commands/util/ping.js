@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('../../src/command');
+const Command = require('../command');
 
 /**
  * @class
