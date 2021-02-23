@@ -1,8 +1,7 @@
 'use strict';
 
-const { Collection } = require("discord.js");
-const BaseCommand = require("../../commands/command");
-const BaseManager = require("./base");
+const BaseCommand = require("../commands/command");
+const BaseManager = require("./BaseManager");
 
 class CommandManager extends BaseManager {
 

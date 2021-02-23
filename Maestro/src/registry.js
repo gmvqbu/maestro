@@ -1,7 +1,7 @@
 'use strict';
 
-const CommandManager = require("./registry/CommandManager");
-const TypeManager = require("./registry/TypeManager");
+const CommandManager = require("./managers/CommandManager");
+const TypeManager = require("./managers/TypeManager");
 
 class Registry {
     constructor(client) {
