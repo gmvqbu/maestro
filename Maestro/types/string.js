@@ -1,6 +1,6 @@
 'use strict';
 
-const BaseType = require("./type");
+const BaseType = require("./base");
 
 class StringType extends BaseType {
 
