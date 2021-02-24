@@ -53,28 +53,37 @@ class Command {
          * Command arguments
          * @type {Array<Argument>}
          */
-        this.args = 'args' in data ? this.#buildArguments(data.args) : null;
+        this.args = 'args' in data ? this.mapArguments(data.args) : null;
 
         /**
          * Argument count
          * @type {int}
          */
-        this.argsCount = this.args ? this.args.length : 0;
+        this.argsCount = this.args ? this.args.filter(arg => arg.default !== null).lenght : 0;
     }
 
     /**
-     * Build all the arguments into the Argument object
+     * Map the command arguments
      * @private
      * @param {Array<ArgumentInfo>} args
      */
-    #buildArguments(args) {
+    mapArguments(args) {
         if (!Array.isArray(args)) throw Error(`Command arguments must be an array.`);
-        if (args.length > 0) {
-            args.forEach((data, k) => {
-                args[k] = new Argument(data);
-            });
-        }
-        return args;
+        return args.map(data => new Argument(this.client, data))
+    }
+
+    /**
+     * Merge the given arguments with the expected ones
+     * @param {Object} command
+     * @param {Array<string>} values
+     */
+    mergeArguments(values) {
+        if (this.argsCount === 0) return [];
+        return this.args.map(arg => {
+            // Set the argument value ; defaults if undefined ;
+            arg.value = (values.shift() ?? arg.default) ?? null;
+            return arg
+        });
     }
 }
 
