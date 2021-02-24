@@ -1,6 +1,7 @@
 'use strict';
 
 const BaseCommand = require("../commands/command");
+const { error } = require("../errors");
 const BaseManager = require("./BaseManager");
 
 class CommandManager extends BaseManager {
@@ -38,8 +39,7 @@ class CommandManager extends BaseManager {
      * @returns {Object|null} The fetched command
      */
     get(key) {
-        if (super.get(key)) return super.get(key);
-        return this.collection.find(cmd => cmd.alias.includes(key)) ?? null;
+        return (super.get(key) ?? this.collection.find(cmd => cmd.alias.includes(key))) ?? null;
     }
 
 }
