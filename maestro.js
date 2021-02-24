@@ -1,19 +1,21 @@
 'use strict';
 
-const { Client, Config, User } = require('./Maestro/');
+const { Client, Config } = require('./Maestro/');
+const { setUsername } = require('./Maestro/util');
 
 const client = new Client({
     prefix: Config.prefix,
     ownerID: Config.ownerID
 });
 
-client.registry.registerDefaults()
+client.registry.registerDefaults();
 
 client.on('ready', () => {
-    const bot = new User(client, client.user);
+    // This part is not in the client file cuz it requires the config
+    const bot = client.user;
     console.log(`Logged in as ${bot.tag} !`);
 
-    if (bot.username != Config.username) bot.updateUsername(Config.username);
+    if (bot.username != Config.username) setUsername(bot, Config.username);
 });
 
 client.login(Config.token);
