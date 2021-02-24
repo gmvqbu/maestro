@@ -24,7 +24,7 @@ class BaseManager {
         if (!Array.isArray(values)) throw Error(`Registry list must be an array.`);
         values.forEach((v, k) => {
             const entry = this.verify(v, k);
-            if (!entry.key ||!entry.value) throw Error(`Verify method must return an object with 'key' and 'value' attributes.`);
+            if (!entry.key || !entry.value) throw Error(`Verify method must return an object with 'key' and 'value' attributes.`);
             this.set(entry.key, entry.value);
         })
         return this.registry;
