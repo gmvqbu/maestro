@@ -1,7 +1,6 @@
 'use strict';
 
 const BaseCommand = require("../commands/command");
-const { error } = require("../errors");
 const BaseManager = require("./BaseManager");
 
 class CommandManager extends BaseManager {
