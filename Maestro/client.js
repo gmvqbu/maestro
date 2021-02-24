@@ -1,9 +1,9 @@
 'use strict';
 
 const Discord = require("discord.js");
-const User = require("./tools/user/UserService");
 const Dispatcher = require("./dispatcher");
 const Registry = require("./registry");
+const { fetchUser } = require("./util");
 
 /**
  * Extends the Discord Client
@@ -45,7 +45,9 @@ class MaestroClient extends Discord.Client {
          * @readonly
          * @type {AnyUser}
          */
-        if (this.ownerID) User.fetch(this, this.ownerID).then(user => this.owner = user);
+        if (this.ownerID) fetchUser(this, this.ownerID)
+            .then(user => this.owner = user)
+            .catch(console.error) ?? null;
 
         this.on('message', msg => { this.dispatcher.handleMessage(msg); });
     }
