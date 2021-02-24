@@ -10,11 +10,12 @@ class Argument {
      * @property {string} key Argument key (used to retreive the argument in the run method)
      * @property {string} label Argument label
      * @property {string} type Argument type
+     * @property {*} default Default value
      */
     /**
      * @param {ArgumentInfo} data
      */
-    constructor(data) {
+    constructor(client, data) {
 
         /**
          * This argument key
@@ -37,10 +38,15 @@ class Argument {
          * Could be (string|url|int|time)
          * @type {string}
          */
-        this.type = 'type' in data ? data.type : null;
+        this.type = 'type' in data ? client.registry.types.get(data.type) : null;
         if (!this.type) throw Error(`Argument type cannot be null`);
-        if (typeof this.type != 'string') throw Error(`Argument type must be a string`);
-        if (this.type != this.type.toLowerCase()) throw Error(`Argument type must be in lower case.`);
+
+        /**
+         * This argument value
+         * Set by default when specified
+         * @type {*}
+         */
+        this.default = 'default' in data ? data.default : null;
     }
 
 }
