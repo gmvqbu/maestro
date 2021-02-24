@@ -1,7 +1,7 @@
 'use strict';
 
 const Discord = require('discord.js');
-const ArgumentCollector = require('./commands/collector');
+const { error } = require('./messages');
 
 /**
  * Dispatch tasks through the app
@@ -11,51 +11,51 @@ class Dispatcher {
     constructor(client, registry) {
         Object.defineProperty(this, 'client', { value: client });
         Object.defineProperty(this, 'registry', { value: registry });
-
-        /**
-         * The argument collector
-         * @type {ArgumentCollector}
-         */
-        this.argumentCollector = new ArgumentCollector(client, registry);
     }
 
     /**
-     * Handles any message from discord users
+     * Handle any message from discord users
      * @public
      * @method
      * @param {Discord.Message} msg
      */
-    async handleMessage(msg) {
-        if (!this.#shouldHandleMessage(msg)) return;
-
-        const error = await this.parseMessage(msg, this.client.prefix);
-        if (error) return msg.reply(error);
-        msg.command.run(msg, msg.args)
+    handleMessage(msg) {
+        if (!this.shouldHandleMessage(msg)) return;
+        // Begin input treatment
+        const parsedMessage = this.parseMessage(msg.content);
+        const command = this.registry.commands.get(parsedMessage.shift())
+        if (!command) return msg.reply(error('UNKNOWN_COMMAND'));
+        // Merge the rest of the parsed message
+        let args = command.mergeArguments(parsedMessage)
+        const missingArgs = args.filter(arg => arg.value === null);
+        if (missingArgs.length > 0) return msg.reply(error('MISSING_ARGUMENTS', command.name, missingArgs.map(arg => arg.label)));
+        const wrongArgs = args.filter(arg => arg.type.validate(arg.value) === false);
+        if (wrongArgs.length > 0) return msg.reply(error('WRONG_ARGUMENTS', command.name, wrongArgs.map(arg => arg.label)));
+        // Load data in the message
+        Object.defineProperty(msg, 'command', { value: command, writable: false });
+        Object.defineProperty(msg, 'args', {
+            value: (args != []) ? Object.fromEntries(args.map(arg => [arg.key, arg.value])) : null,
+            writable: false
+        });
+        return command.run(msg, msg.args);
     }
 
     /**
      * Wether the dispatcher should handle the message or not
      * @param {Discord.Message} msg
+     * @returns {Boolean}
      */
-    #shouldHandleMessage(msg) {
+    shouldHandleMessage(msg) {
         return (!msg.author.bot && msg.content.match(new RegExp(`^\\${this.client.prefix}\\w+(\\s+)?(.+)?`, 'i'))) ? true : false;
     }
 
     /**
      * Parses the message content
-     * @param {string} prefix
      * @param {string} msg
-     * @returns {ParsedContent} The parsed content
+     * @returns {Array<string>} The parsed content
      */
-    parseMessage(msg, prefix) {
-        const parsedContent = msg.content.substring(prefix.length).split(' ');
-        const command = this.registry.commands.get(parsedContent.shift());
-        if (!command) return `Cette commande n'existe pas.`;
-        Object.defineProperty(msg, 'command', { value: command, writable: false });
-        if (command.argsCount === 0) return;
-        const args = this.argumentCollector.collect(command, parsedContent);
-        if (typeof args === 'string') return args;  // Erreur
-        Object.defineProperty(msg, 'args', { value: args, writable: false });
+    parseMessage(content) {
+        return content.substring(this.client.prefix.length).split(' ');
     }
 }
 
