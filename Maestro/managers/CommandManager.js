@@ -15,7 +15,8 @@ class CommandManager extends BaseManager {
     registerDefaults() {
         return super.register([
             require('../commands/util/ping'),
-            require('../commands/test/command')
+            require('../commands/voice/connect'),
+            require('../commands/voice/disconnect')
         ])
     }
 
