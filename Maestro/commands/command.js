@@ -2,20 +2,15 @@
 
 const Argument = require("./argument");
 
+/** Represent a command */
 class Command {
-
     /**
-     * The current client
-     * @type {MaestroClient}
-     */
-    client;
-
-    /**
+     * Represent the command infos to set up, fetch and execute the command
      * @typedef {Object} CommandInfo
-     * @property {string} name Command name
-     * @property {string} group Command group
-     * @property {Array<string>} alias Command alias/aliases
-     * @property {Array<object>} args Command arguments
+     * @property {string} name The command name : used as key to store and fetch the command
+     * @property {string} group The command group : used to classify each command
+     * @property {Array<string>} alias The command aliases : used as secondary key to fetch the command
+     * @property {Array<object>} args The command arguments
      */
     /**
      * @param {MaestroClient} client
@@ -43,11 +38,12 @@ class Command {
         if (this.group != this.group.toLowerCase()) throw Error(`Command group must be in lower case.`);
 
         /**
-         * Command aliases
+         * This command aliases
          * @type {Array<string>}
          */
         this.alias = 'alias' in data ? data.alias : [];
         if (this.alias && !Array.isArray(this.alias)) throw Error(`Command alias must be an array of aliases.`);
+        if (this.alias && this.alias.some(alias => typeof alias != 'string')) throw Error(`Command alias must be a string.`)
 
         /**
          * Command arguments
@@ -63,9 +59,10 @@ class Command {
     }
 
     /**
-     * Map the command arguments
+     * Return the mapped command arguments
      * @private
-     * @param {Array<ArgumentInfo>} args
+     * @param {Array<ArgumentInfo>} args The command arguments data
+     * @returns {Array<Argument>} Mapped argument objects
      */
     mapArguments(args) {
         if (!Array.isArray(args)) throw Error(`Command arguments must be an array.`);

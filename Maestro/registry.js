@@ -40,8 +40,8 @@ class Registry {
      * Launch the registerDefaults of each manager
      */
     registerDefaults() {
-        this.typeManager.registerDefaults();
-        this.commandManager.registerDefaults();
+        this.typeManager.registerDefaults()
+            .commandManager.registerDefaults();
     }
 
 }

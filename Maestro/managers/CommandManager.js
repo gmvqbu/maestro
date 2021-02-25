@@ -1,15 +1,19 @@
 'use strict';
 
-const BaseCommand = require("../commands/command");
+const Command = require("../commands/command");
 const BaseManager = require("./BaseManager");
 
+/**
+ * Represent the Command Collection manager
+ * @extends BaseManager
+ */
 class CommandManager extends BaseManager {
-
     /**
      * Register the default commands
+     * @returns {Registry}
      */
     registerDefaults() {
-        super.register([
+        return super.register([
             require('../commands/util/ping'),
             require('../commands/test/command')
         ])
@@ -17,12 +21,11 @@ class CommandManager extends BaseManager {
 
     /**
      * Verify any command
-     * @private
-     * @param {Function|Object} command The command to register
+     * @param {Function|Object} command The command to verify
      * @returns {Object}
      */
     verify(command) {
-        if (!BaseCommand.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending BaseCommand.`);
+        if (!Command.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending Command.`);
         command = new command(this.client);
         const keywords = Array.of(command.name).concat(command.alias ?? null);
         this.browseCollectionForConflict(keywords);
@@ -40,7 +43,6 @@ class CommandManager extends BaseManager {
     get(key) {
         return (super.get(key) ?? this.collection.find(cmd => cmd.alias.includes(key))) ?? null;
     }
-
 }
 
 module.exports = CommandManager;

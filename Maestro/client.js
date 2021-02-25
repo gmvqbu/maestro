@@ -1,5 +1,7 @@
 'use strict';
 
+/* The whole framework is heavily inspired by Discord.js-commando */
+
 const Discord = require("discord.js");
 const Dispatcher = require("./dispatcher");
 const Registry = require("./registry");
@@ -7,7 +9,6 @@ const { fetchUser } = require("./util");
 
 /**
  * Extends the Discord Client
- * @class
  * @extends Discord.Client
  */
 class MaestroClient extends Discord.Client {
@@ -15,33 +16,33 @@ class MaestroClient extends Discord.Client {
         super()
 
         /**
-         * Le registre de commandes
+         * This registry (types & commands)
          * @type {MaestroRegistry}
          */
         this.registry = new Registry(this);
 
         /**
-         * Le dispatcher
+         * This dispatcher
          * @type {Dispatcher}
          */
         this.dispatcher = new Dispatcher(this, this.registry);
 
         /**
-         * Le préfixe du bot
+         * This bot command prefix
          * @readonly
          * @type {string}
          */
         this.prefix = 'prefix' in data ? data.prefix : '$';
 
         /**
-         * L'id propriétaire du bot
+         * This bot owner ID
          * @readonly
          * @type {int}
          */
         this.ownerID = 'ownerID' in data ? data.ownerID : null;
 
         /**
-         * Le propriétaire du bot
+         * This bot owner ClientUser object
          * @readonly
          * @type {AnyUser}
          */

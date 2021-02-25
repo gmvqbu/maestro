@@ -2,27 +2,31 @@
 
 const BaseType = require("./base");
 
+/** Represent string type */
 class StringType extends BaseType {
-
     constructor(client) {
         super(client, {
-            name: 'string'
-            // peut-être remplacer la méthode validate par un function.call dans BaseType
-            // avec un donnée validator qui peut être soit une regex soit un fonction pour les types plus complexes
-            // validator: new RegExp(/^\w+$/, 'i')
-            // ou
-            // validator: this.validate
+            name: 'string',
         })
     }
 
+    /**
+     * Validate any value
+     * @param {string} value The value to validate
+     * @returns {Boolean}
+     */
     validate(value) {
-        return value.match(/^\w+$/i) ? true : false;
+        return super.validate(value, /^\w+$/i);
     }
 
+    /**
+     * Format any value
+     * @param {string} value The value to format
+     * @returns {string}
+     */
     format(value) {
         return String(value);
     }
-
 }
 
 module.exports = StringType;

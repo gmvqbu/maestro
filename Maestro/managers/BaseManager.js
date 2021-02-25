@@ -2,6 +2,7 @@
 
 const { Collection } = require("discord.js");
 
+/** Represent a base collection manager */
 class BaseManager {
 
     /**
@@ -17,14 +18,15 @@ class BaseManager {
 
     /**
      * Register all the values in the collection
-     * @param {Array<Object>} types
-     * @returns {Registry}
+     * @param {Array<*>} values The values to register in the collection
+     * @returns {Registry} Useful to make method chains
      */
     register(values) {
         if (!Array.isArray(values)) throw Error(`Registry list must be an array.`);
         values.forEach((v, k) => {
             const entry = this.verify(v, k);
-            if (!entry.key || !entry.value) throw Error(`Verify method must return an object with 'key' and 'value' attributes.`);
+            if (!entry.key) throw Error(`Entry key cannot be null.`);
+            if (!entry.value) throw Error(`Entry value cannot be null.`);
             this.set(entry.key, entry.value);
         })
         return this.registry;
@@ -33,16 +35,13 @@ class BaseManager {
     /**
      * Verify any value
      * This method is implemented by the children classes which define the real verification
-     * They also define right the entry to return according to their collection format
+     * They also define the entry to return according to their collection format
      * @param {*} v
      * @param {string} k
-     * @return {Object}
+     * @returns {Object}
      */
     verify(v, k) {
-        return {
-            key: k,
-            value: v
-        };
+        return { key: k, value: v };
     }
 
     /**
@@ -57,7 +56,7 @@ class BaseManager {
     /**
      * Get an entry from this collection
      * @param {string} key
-     * @return {*}
+     * @returns {*}
      */
     get(key) {
         return this.collection.has(key) ? this.collection.get(key) : null;
@@ -69,6 +68,7 @@ class BaseManager {
      * @returns {null}
      */
     browseCollectionForConflict(keywords) {
+        if (typeof keywords != 'string' && !Array.isArray(keywords)) throw Error(`Keywords must be a string (single value) or an array (multiple values).`);
         keywords = !Array.isArray(keywords) ? Array.from(keywords) : keywords;
         keywords.forEach(keyword => {
             // If the manager can fetch any value from those keywords using the getter (or his implementation), there is a conflict.

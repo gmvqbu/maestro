@@ -3,20 +3,24 @@
 const BaseType = require('../types/base');
 const BaseManager = require("./BaseManager");
 
+/**
+ * Represent the Type Collection manager
+ * @extends BaseManager
+ */
 class TypeManager extends BaseManager {
-
     /**
      * Register the default types
+     * @returns {Registry}
      */
     registerDefaults() {
-        super.register([
+        return super.register([
             require('../types/string')
         ])
     }
 
     /**
-     * Verify any type before save
-     * @param {Function|Object} type
+     * Verify any type
+     * @param {Function|Object} type The type to verify
      * @returns {Object}
      */
     verify(type) {
@@ -28,7 +32,6 @@ class TypeManager extends BaseManager {
             value: type
         }
     }
-
 }
 
 module.exports = TypeManager;

@@ -1,12 +1,8 @@
 'use strict';
 
-const Discord = require('discord.js');
 const { error } = require('./messages');
 
-/**
- * Dispatch tasks through the app
- * @class
- */
+/** Dispatch commands through the app */
 class Dispatcher {
     constructor(client, registry) {
         Object.defineProperty(this, 'client', { value: client });
@@ -15,9 +11,7 @@ class Dispatcher {
 
     /**
      * Handle any message from discord users
-     * @public
-     * @method
-     * @param {Discord.Message} msg
+     * @param {Discord.Message} msg The message to handle
      */
     handleMessage(msg) {
         if (!this.shouldHandleMessage(msg)) return;
@@ -25,8 +19,8 @@ class Dispatcher {
         const parsedMessage = this.parseMessage(msg.content);
         const command = this.registry.commands.get(parsedMessage.shift())
         if (!command) return msg.reply(error('UNKNOWN_COMMAND'));
-        // Merge the rest of the parsed message
-        let args = command.mergeArguments(parsedMessage)
+        // Merge the rest of the parsed message as arguments
+        const args = command.mergeArguments(parsedMessage)
         const missingArgs = args.filter(arg => arg.value === null);
         if (missingArgs.length > 0) return msg.reply(error('MISSING_ARGUMENTS', command.name, missingArgs.map(arg => arg.label)));
         const wrongArgs = args.filter(arg => arg.type.validate(arg.value) === false);
@@ -34,7 +28,7 @@ class Dispatcher {
         // Load data in the message
         Object.defineProperty(msg, 'command', { value: command, writable: false });
         Object.defineProperty(msg, 'args', {
-            value: (args != []) ? Object.fromEntries(args.map(arg => [arg.key, arg.value])) : null,
+            value: (args != []) ? Object.fromEntries(args.map(arg => [arg.key, arg.type.format(arg.value)])) : null,
             writable: false
         });
         return command.run(msg, msg.args);
@@ -51,7 +45,7 @@ class Dispatcher {
 
     /**
      * Parses the message content
-     * @param {string} msg
+     * @param {string} content The message content to parse
      * @returns {Array<string>} The parsed content
      */
     parseMessage(content) {

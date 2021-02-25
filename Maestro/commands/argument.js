@@ -1,22 +1,20 @@
 'use strict';
 
-/**
- * Represent a command argument
- */
+/** Represent a command argument */
 class Argument {
-
     /**
+     * Represent the argument infos used to set up and deliver the argument
      * @typedef {Object} ArgumentInfo
-     * @property {string} key Argument key (used to retreive the argument in the run method)
-     * @property {string} label Argument label
+     * @property {string} key Argument key : used to retreive the argument in the run method
+     * @property {string} label Argument label : used to interact with the user
      * @property {string} type Argument type
      * @property {*} default Default value
      */
     /**
+     * @param {MaestroClient}
      * @param {ArgumentInfo} data
      */
     constructor(client, data) {
-
         /**
          * This argument key
          * @type {string}
@@ -31,10 +29,11 @@ class Argument {
          * @type {string}
          */
         this.label = 'label' in data ? data.label : null;
-        if (typeof this.key != 'string') throw Error(`Argument key must be a string`);
+        if (!this.label) throw Error(`Argument label cannot be null`);
+        if (typeof this.label != 'string') throw Error(`Argument key must be a string`);
 
         /**
-         * This argument type
+         * This argument type (fetched from the registry)
          * Could be (string|url|int|time)
          * @type {string}
          */
@@ -42,13 +41,13 @@ class Argument {
         if (!this.type) throw Error(`Argument type cannot be null`);
 
         /**
-         * This argument value
-         * Set by default when specified
+         * This argument default value
          * @type {*}
          */
         this.default = 'default' in data ? data.default : null;
-    }
+        if (this.default != null && !this.type.validate(this.default)) throw Error(`Default argument value must match the argument type.`)
 
+    }
 }
 
 module.exports = Argument;

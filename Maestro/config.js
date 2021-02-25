@@ -2,8 +2,8 @@
 
 const config = require('../config/config.json');
 
+/** Represent this bot config interface */
 class Config {
-
     /**
      * The bot configuration
      * @readonly
@@ -12,6 +12,7 @@ class Config {
     static #bot = config.bot;
 
     /**
+     * The bot command prefix
      * @readonly
      * @type {string}
      */
@@ -20,6 +21,7 @@ class Config {
     }
 
     /**
+     * The bot owner ID
      * @readonly
      * @type {string}
      */
@@ -28,6 +30,7 @@ class Config {
     }
 
     /**
+     * The bot's token
      * @readonly
      * @type {string}
      */
@@ -36,14 +39,13 @@ class Config {
     }
 
     /**
+     * The bot's username
      * @readonly
      * @type {string}
      */
     static get username() {
         return this.#bot.username;
     }
-
-
 }
 
 module.exports = Config;

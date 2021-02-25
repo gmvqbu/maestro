@@ -23,7 +23,7 @@ function fetchUser(client, userID) {
 function setUsername(user, username) {
     if (typeof username != 'string') throw Error(`Username must be a string.`);
     user.setUsername(username)
-        .then(user => console.log(`Updated username from ${username} to ${user.username}.`))
+        .then(user => console.log(`Updated username to ${user.username}.`))
         .catch(console.error);
 }
 
