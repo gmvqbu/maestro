@@ -10,19 +10,19 @@ const client = new Client({
 
 client.registry
     .types.register([
-        require('../types/string'),
-        require('../types/yt-search')
+        require('./Maestro/types/string'),
+        require('./Maestro/types/yt-search')
     ])
     .commands.register([
-        require('../commands/util/ping'),
-        require('../commands/player/play'),
-        require('../commands/player/stop'),
-        require('../commands/player/pause'),
-        require('../commands/player/resume'),
-        require('../commands/player/next'),
-        require('../commands/queue/queue'),
-        require('../commands/queue/empty'),
-        require('../commands/queue/shuffle')
+        require('./Maestro/commands/util/ping'),
+        require('./Maestro/commands/player/play'),
+        require('./Maestro/commands/player/stop'),
+        require('./Maestro/commands/player/pause'),
+        require('./Maestro/commands/player/resume'),
+        require('./Maestro/commands/player/next'),
+        require('./Maestro/commands/queue/queue'),
+        require('./Maestro/commands/queue/empty'),
+        require('./Maestro/commands/queue/shuffle')
     ]);
 
 client.on('ready', () => {
