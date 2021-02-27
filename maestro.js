@@ -1,7 +1,7 @@
 'use strict';
 
 const { Client, Config } = require('./Maestro/');
-const { setUsername } = require('./Maestro/util');
+const { setUsername } = require('./Maestro/util/util');
 
 const client = new Client({
     prefix: Config.prefix,

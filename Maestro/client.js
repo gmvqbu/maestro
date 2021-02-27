@@ -5,7 +5,7 @@
 const Discord = require("discord.js");
 const Dispatcher = require("./dispatcher");
 const Registry = require("./registry");
-const { fetchUser } = require("./util");
+const { fetchUser } = require("./util/util");
 
 /**
  * Extends the Discord Client
