@@ -9,17 +9,6 @@ const BaseManager = require("./BaseManager");
  */
 class TypeManager extends BaseManager {
     /**
-     * Register the default types
-     * @returns {Registry}
-     */
-    registerDefaults() {
-        return super.register([
-            require('../types/string'),
-            require('../types/yt-search')
-        ])
-    }
-
-    /**
      * Verify any type
      * @param {Function|Object} type The type to verify
      * @returns {Object}
