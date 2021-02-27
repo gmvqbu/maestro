@@ -19,19 +19,10 @@ class Dispatcher {
         const parsedMessage = this.parseMessage(msg.content);
         const command = this.registry.commands.get(parsedMessage.shift())
         if (!command) return msg.reply(error('UNKNOWN_COMMAND'));
-        // Merge the rest of the parsed message as arguments
-        const args = command.mergeArguments(parsedMessage)
-        const missingArgs = args.filter(arg => arg.value === null);
-        if (missingArgs.length > 0) return msg.reply(error('MISSING_ARGUMENTS', command.name, missingArgs.map(arg => arg.label)));
-        const wrongArgs = args.filter(arg => arg.type.validate(arg.value) === false);
-        if (wrongArgs.length > 0) return msg.reply(error('WRONG_ARGUMENTS', command.name, wrongArgs.map(arg => arg.label)));
-        // Load data in the message
-        Object.defineProperty(msg, 'command', { value: command, writable: false });
-        Object.defineProperty(msg, 'args', {
-            value: (args != []) ? Object.fromEntries(args.map(arg => [arg.key, arg.type.format(arg.value)])) : null,
-            writable: false
-        });
-        return command.run(msg, msg.args);
+        const args = command.argsCollector ? command.argsCollector.collect(msg, command, parsedMessage) : null;
+
+        Object.defineProperty(msg, 'command', { value: command });
+        return command.run(msg, args);
     }
 
     /**

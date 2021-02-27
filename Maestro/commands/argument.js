@@ -16,40 +16,77 @@ class Argument {
      * @param {ArgumentInfo} data
      */
     constructor(client, data) {
+        this.constructor.validateData(data);
+        if (!client) throw new Error(`Argument client must be specified.`)
+
+        /**
+		 * Client that this argument is for
+		 * @name Argument#client
+		 * @type {MaestroClient}
+		 * @readonly
+		 */
+        Object.defineProperty(this, 'client', { value: client });
+
         /**
          * This argument key
          * @type {string}
          */
-        this.key = 'key' in data ? data.key : null;
-        if (!this.key) throw Error(`Argument key cannot be null`);
-        if (typeof this.key != 'string') throw Error(`Argument key must be a string`);
-        if (this.key != this.key.toLowerCase()) throw Error(`Argument key must be in lower case.`);
+        this.key = data.key;
 
         /**
          * This argument label
          * @type {string}
          */
-        this.label = 'label' in data ? data.label : null;
-        if (!this.label) throw Error(`Argument label cannot be null`);
-        if (typeof this.label != 'string') throw Error(`Argument key must be a string`);
+        this.label = data.label;
 
         /**
          * This argument type (fetched from the registry)
          * Could be (string|url|int|time)
          * @type {string}
          */
-        this.type = 'type' in data ? client.registry.types.get(data.type) : null;
-        if (!this.type) throw Error(`Argument type cannot be null`);
+        this.type = client.registry.types.get(data.type);;
 
         /**
          * This argument default value
          * @type {*}
          */
-        this.default = 'default' in data ? data.default : null;
-        if (this.default != null && !this.type.validate(this.default)) throw Error(`Default argument value must match the argument type.`)
+        this.default = typeof data.default !== 'undefined' ? data.default : null;
 
-        this.infinite = 'infinite' in data ? data.infinite : null;
+        /**
+         * Wether this argument accept inifinite value
+         */
+        this.infinite = Boolean(data.infinite);
+    }
 
+    /**
+     * Validate the argument value
+     * @param {*} value
+     */
+    validate(value) {
+        return this.type.validate(value);
+    }
+
+    /**
+     * Parse a string value into a neat argument
+     * @param {*} value
+     */
+    parse(value) {
+        return this.type.parse(value);
+    }
+
+    /**
+     * Validate argument data before loading
+     * @param {ArgumentInfo} data
+     */
+    static validateData(data) {
+        if (!data.key) throw new Error(`Argument key cannot be empty.`);
+        if (typeof data.key !== 'string') throw new TypeError(`Argument key must be a string`);
+        if (data.key !== data.key.toLowerCase()) throw new Error(`Argument key must be in lower case.`);
+
+        if (!data.label) throw new Error(`Argument label cannot be empty`);
+        if (typeof data.label !== 'string') throw new Error(`Argument label must be a string`);
+
+        if (!data.type) throw new Error(`Argument type cannot be empty`);
     }
 }
 
