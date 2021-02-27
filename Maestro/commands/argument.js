@@ -62,7 +62,6 @@ class Argument {
          * @type {string}
          */
         this.format = this.default ? `[${this.label}]` : `<${this.label}>`;
-        console.log(this.format)
     }
 
     /**
