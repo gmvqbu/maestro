@@ -4,6 +4,8 @@ const { player } = require('../util/constants');
 const Queue = require("./Queue");
 const Voice = require('./Voice');
 const YouTubeService = require('./services/YouTubeService');
+const { MessageEmbed } = require('discord.js');
+const EmbedTrack = require('./tracks/EmbedTrack');
 
 /** Represent the music player */
 class Player {
@@ -102,7 +104,8 @@ class Player {
      * @param {string} query
      */
     async play(msg, channel, query) {
-        const track = await YouTubeService.video(await msg, query);
+        const track = await this.askService(query);
+        if (!track) msg.reply(`aucune piste n'a été trouvée.`)
         await this.connect(msg, channel);
         if (this.status === player.PLAYING) this.addToQueue(msg, track)
         else this.stream(msg, track);
@@ -115,7 +118,10 @@ class Player {
      */
     async stream(msg, track) {
         const stream = await track.getStream();
-        stream.on('error', () => msg.channel.send(`Une erreur est survenue lors de la lecture de la piste.`));
+        stream.on('error', () => {
+            msg.channel.send(`Une erreur est survenue lors de la lecture de la piste.`)
+            return this.next(msg);
+        });
         stream.on('end', () => this.next(msg));
         this.dispatcher = await this.voice.play(this.connection, stream)
             .then(dispatcher => {
@@ -172,15 +178,28 @@ class Player {
     }
 
     /**
+     * Vers un PlayerDispatcher !?
+     */
+    /**
+     * Select the media provider service to use and if not necessary, directly returns the track
+     * @param {*} query
+     */
+    async askService(query) {
+        if (query instanceof MessageEmbed && query.provider.name === 'YouTube') return new EmbedTrack(await query);
+        else if (typeof query === 'string') return await YouTubeService.video(query);
+        return null;
+    }
+
+    /**
      * Display the queue
      * @param {Discord.Message} msg
      */
     async displayQueue(msg) {
         return (this.queue.length > 0)
-        ?
-        msg.channel.send(`\`-\` \`${this.queue.map(track => track.title).join("\`\n\`-\` \`")}\``)
-        :
-        msg.channel.send(`la liste de lecture est vide.`);
+            ?
+            msg.channel.send(`\`-\` \`${this.queue.map(track => track.title).join("\`\n\`-\` \`")}\``)
+            :
+            msg.channel.send(`la liste de lecture est vide.`);
     }
 
     /**
