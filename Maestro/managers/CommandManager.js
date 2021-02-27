@@ -15,8 +15,14 @@ class CommandManager extends BaseManager {
     registerDefaults() {
         return super.register([
             require('../commands/util/ping'),
-            require('../commands/voice/connect'),
-            require('../commands/voice/disconnect')
+            require('../commands/player/play'),
+            require('../commands/player/stop'),
+            require('../commands/player/pause'),
+            require('../commands/player/resume'),
+            require('../commands/player/next'),
+            require('../commands/player/queue/queue'),
+            require('../commands/player/queue/empty'),
+            require('../commands/player/queue/shuffle')
         ])
     }
 
