@@ -13,7 +13,7 @@ class YouTubeUrlArgumentType extends ArgumentType {
         return super.validate(value, youtubeUrl);
     }
 
-    async parse(msg) {
+    parse(msg) {
         // Returns the embed to save some YouTube API points
         return msg.embeds[0];
     }
