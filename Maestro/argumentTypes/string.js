@@ -8,21 +8,11 @@ class StringArgumentType extends ArgumentType {
         super(client, 'string')
     }
 
-    /**
-     * Validate any value
-     * @param {string} value The value to validate
-     * @returns {Boolean}
-     */
     validate(value) {
         return super.validate(value, /^[\w\s]+$/i);
     }
 
-    /**
-     * Format any value
-     * @param {string} value The value to format
-     * @returns {string}
-     */
-    format(value) {
+    parse(msg, value) {
         return String(value);
     }
 }

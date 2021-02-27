@@ -9,22 +9,13 @@ class YouTubeUrlArgumentType extends ArgumentType {
         super(client, 'yt-url');
     }
 
-    /**
-     * Validate any value
-     * @param {string} value The value to validate
-     * @returns {Boolean}
-     */
     validate(value) {
-        return value.match(youtubeUrl) ? true : false;
+        return super.validate(value, youtubeUrl);
     }
 
-    /**
-     * Format any value
-     * @param {string} value The value to format
-     * @returns {string}
-     */
-    format(value) {
-        return youtubeUrl.exec(value)[0]
+    async parse(msg) {
+        // Returns the embed to save some YouTube API points
+        return msg.embeds[0];
     }
 }
 

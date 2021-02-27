@@ -33,6 +33,14 @@ class ArgumentType {
     validate(value, regex) {
         return value.match(regex) ? true : false;
     }
+
+    /**
+     * Parse any value
+     * @param {string} value
+     */
+    parse(msg, value) {
+        return value;
+    }
 }
 
 module.exports = ArgumentType;
