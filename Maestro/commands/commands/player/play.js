@@ -12,7 +12,7 @@ class PlayCommand extends Command {
             args: [
                 {
                     key: 'query',
-                    label: 'Recherche',
+                    label: 'URL YouTube',
                     type: 'yt-url',
                     infinite: true
                 }
