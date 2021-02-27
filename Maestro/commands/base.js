@@ -1,6 +1,7 @@
 'use strict';
 
 const Argument = require("./Argument");
+const ArgumentCollector = require("./ArgumentCollector");
 
 /** Represent a command */
 class Command {
@@ -21,11 +22,11 @@ class Command {
         if (!client) throw new Error(`Command client must be specified.`)
 
         /**
-		 * Client that this command is for
-		 * @name Command#client
-		 * @type {MaestroClient}
-		 * @readonly
-		 */
+         * Client that this command is for
+         * @name Command#client
+         * @type {MaestroClient}
+         * @readonly
+         */
         Object.defineProperty(this, 'client', { value: client });
 
         /**
@@ -44,38 +45,11 @@ class Command {
          * Command arguments
          * @type {?Array<Argument>}
          */
-        this.args = data.args ? this.mapArguments(data.args) : null;
-
-        /**
-         * Argument count
-         * @type {int}
-         */
-        this.argsCount = data.args ? data.args.filter(arg => arg.default !== null).lenght : 0;
-    }
-
-    /**
-     * Return the mapped command arguments
-     * @private
-     * @param {Array<ArgumentInfo>} args The command arguments data
-     * @returns {Array<Argument>} Mapped argument objects
-     */
-    mapArguments(args) {
-        if (!Array.isArray(args)) throw Error(`Command arguments must be an array.`);
-        return args.map(data => new Argument(this.client, data))
-    }
-
-    /**
-     * Merge the given arguments with the expected ones
-     * @param {Object} command
-     * @param {Array<string>} values
-     */
-    mergeArguments(values) {
-        if (this.argsCount === 0) return [];
-        return this.args.map(arg => {
-            // Set the argument value ; defaults if undefined ;
-            arg.value = ((arg.infinite ? values.join(' ') : values.shift()) ?? arg.default) ?? null;
-            return arg
-        });
+        this.argsCollector = (data.args && data.args.length)
+            ?
+            new ArgumentCollector(this.client, data.args)
+            :
+            null;
     }
 
     /**
