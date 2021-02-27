@@ -4,7 +4,7 @@ const { player } = require('../util/constants');
 const Music = require('./tracks/BaseTrack');
 const Queue = require("./Queue");
 const Voice = require('./Voice');
-const { YouTube } = require('./YouTubeDataAPI/Youtube');
+const YouTubeService = require('./services/YouTubeService');
 
 /** Represent the music player */
 class Player {
@@ -103,7 +103,7 @@ class Player {
      * @param {string} query
      */
     async play(msg, channel, query) {
-        const track = await YouTube.video(await msg, query);
+        const track = await YouTubeService.video(await msg, query);
         await this.connect(msg, channel);
         if (this.status === player.PLAYING) this.addToQueue(msg, track)
         else this.stream(msg, track);

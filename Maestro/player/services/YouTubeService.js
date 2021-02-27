@@ -2,9 +2,8 @@
 
 const YouTubeDataAPI = require("../apis/YouTubeDataAPI");
 const YouTubeTrack = require("../tracks/YouTubeTrack");
-const ytUrlRegex = /^https?\:\/\/(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 
-class YouTube {
+class YouTubeService {
     constructor(client) {
         Object.defineProperty(this, 'client', { value: client })
 
@@ -23,13 +22,6 @@ class YouTube {
         const data = require('../../../config/tmp.yt.search.json').items[0];    // temp
         return new YouTubeTrack(data);
     }
-
-    static parserUrl(url) {
-        return url.replace(/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(\?v=)/, '');
-    }
 }
 
-module.exports = {
-    YouTube,
-    ytUrlRegex
-};
+module.exports = YouTubeService;
