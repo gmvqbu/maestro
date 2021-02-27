@@ -37,9 +37,15 @@ class Command {
 
         /**
          * This command aliases
-         * @type {?Array<string>}
+         * @type {?string[]}
          */
         this.alias = data.alias ?? [];
+
+        /**
+         * This command description
+         * @type {string}
+         */
+        this.description = 'description' in data ? data.description : null;
 
         /**
          * Command arguments
@@ -64,6 +70,8 @@ class Command {
         if (data.alias && (!Array.isArray(data.alias) || data.alias.some(alias => typeof alias !== 'string'))) {
             throw new TypeError('Command aliases must be an Array of strings.');
         }
+
+        if (data.description && typeof data.description !== 'string') throw new Error(`Command description mst be a string.`);
     }
 }
 
