@@ -1,65 +1,57 @@
 'use strict';
 
+const { VoiceConnection } = require("discord.js");
+const { Readable } = require('stream');
+
 class Voice {
-    /** This instance */
-    static $instance = null;
-
     /**
-     * Get the voice instance
-     * @param {MaestroClient|Discord.Client} client
+     * Connect the bot to voice
+     * @param {VoiceChannel} channel
+     * @returns {Promise<VoiceConnection>}
      */
-    static instance(client) {
-        if (this.$instance === null) {
-            this.$instance = new this(client)
-        }
-        return this.$instance;
+    join(channel) {
+        return new Promise((resolve, reject) => {
+            return (channel || channel.type === 'voice') ? resolve(channel.join()) : reject();
+        });
     }
 
     /**
-     * This voice connection
-     * @type {Discord.VoiceConnection}
+     * Disconnect the bot from voice
+     * @param {VoiceChannel} channel
+     * @returns {void}
      */
-    VoiceConnection;
-
-    constructor(client) {
-        Object.defineProperty(this, 'client', { value: client });
+    leave(channel) {
+        return new Promise((resolve, reject) => {
+            return (channel || channel.type === 'voice') ? resolve(channel.leave()) : reject(new Error(`Could not disconnect from voice.`));
+        });
     }
 
     /**
-     * @type {Discord.VoiceConnection}
+     * Stream a media into a voice channel
+     * @param {VoiceConnection} connection
+     * @param {Readable} stream
      */
-    get connection() {
-        return this.VoiceConnection ?? null;
+    play(connection, stream) {
+        return new Promise((resolve, reject) => {
+            if (typeof connection != 'object' || !connection.voice || (connection.channel.type ?? null) != 'voice') reject();
+            if (!(stream instanceof Readable)) reject();
+            const params = {
+                type: 'opus',
+                volume: false,
+                bitrate: 'auto'
+            }
+            resolve(connection.play(stream, params));
+        })
     }
 
-    /**
-     * @type {Discord.VoiceConnection}
-     */
-    set connection(value) {
-        this.VoiceConnection = value;
+    /** Pause the stream */
+    pause(dispatcher) {
+        dispatcher.pause(true);
     }
 
-    /**
-     * Connect bot to voice
-     * @param {Discord.Message} msg
-     * @param {Discord.VoiceChannel} channel
-     */
-    async connect(msg, channel) {
-        const reply = await msg.reply(`connection en cours...`);
-        if (this.connection) return reply.edit(`${msg.author}, je suis déjà connecté au salon \`#${this.connection.channel.name}\`.`);
-        this.connection = await channel.join();
-        this.connection.on('failed', console.error);
-        return reply.edit(`${msg.author}, connecté au salon \`#${this.connection.channel.name}\`.`);
-    }
-
-    /**
-     * Disconnect bot from voice
-     * @param {Discord.Message} msg
-     */
-    async disconnect(msg) {
-        const reply = await msg.reply(`déconnection...`);
-        this.connection = await this.connection.channel.leave();
-        return reply.edit(`${msg.author}, déconnecté.`);
+    /** Resume the stream */
+    resume(dispatcher) {
+        dispatcher.resume();
     }
 }
 
