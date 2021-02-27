@@ -104,6 +104,7 @@ class Player {
      * @param {string} query
      */
     async play(msg, channel, query) {
+        if (!query) return
         const track = await this.askService(query);
         if (!track) return msg.reply(`cette ressource est introuvable.`)
         await this.connect(msg, channel);
