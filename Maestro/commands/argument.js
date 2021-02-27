@@ -9,6 +9,7 @@ class Argument {
      * @property {string} label Argument label : used to interact with the user
      * @property {string} type Argument type
      * @property {*} default Default value
+     * @property {Boolean} infinite Wether to capture the rest of the string
      */
     /**
      * @param {MaestroClient}
@@ -46,6 +47,8 @@ class Argument {
          */
         this.default = 'default' in data ? data.default : null;
         if (this.default != null && !this.type.validate(this.default)) throw Error(`Default argument value must match the argument type.`)
+
+        this.infinite = 'infinite' in data ? data.infinite : null;
 
     }
 }

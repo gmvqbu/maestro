@@ -78,7 +78,7 @@ class Command {
         if (this.argsCount === 0) return [];
         return this.args.map(arg => {
             // Set the argument value ; defaults if undefined ;
-            arg.value = (values.shift() ?? arg.default) ?? null;
+            arg.value = ((arg.infinite ? values.join(' ') : values.shift()) ?? arg.default) ?? null;
             return arg
         });
     }
