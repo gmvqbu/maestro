@@ -14,6 +14,7 @@ client.registry
         require('./Maestro/argumentTypes/yt-url')
     ])
     .commands.register([
+        require('./Maestro/commands/commands/util/help'),
         require('./Maestro/commands/commands/util/ping'),
         require('./Maestro/commands/commands/player/play'),
         require('./Maestro/commands/commands/player/stop'),
