@@ -17,45 +17,40 @@ class Command {
      * @param {CommandInfo} data
      */
     constructor(client, data) {
+        this.constructor.validateData(data);
+        if (!client) throw new Error(`Command client must be specified.`)
+
+        /**
+		 * Client that this command is for
+		 * @name Command#client
+		 * @type {MaestroClient}
+		 * @readonly
+		 */
         Object.defineProperty(this, 'client', { value: client });
 
         /**
          * This command name
          * @type {string}
          */
-        this.name = 'name' in data ? data.name : null;
-        if (!this.name) throw Error(`Command name cannot be null.`);
-        if (typeof this.name != 'string') throw Error(`Command name must be a string.`);
-        if (this.name != this.name.toLowerCase()) throw Error(`Command name must be in lower case.`);
-
-        /**
-         * This command group
-         * @type {string}
-         */
-        this.group = 'group' in data ? data.group : null;
-        if (!this.group) throw Error(`Command group cannot be null.`);
-        if (typeof this.group != 'string') throw Error(`Command group must be a string.`);
-        if (this.group != this.group.toLowerCase()) throw Error(`Command group must be in lower case.`);
+        this.name = data.name;
 
         /**
          * This command aliases
-         * @type {Array<string>}
+         * @type {?Array<string>}
          */
-        this.alias = 'alias' in data ? data.alias : [];
-        if (this.alias && !Array.isArray(this.alias)) throw Error(`Command alias must be an array of aliases.`);
-        if (this.alias && this.alias.some(alias => typeof alias != 'string')) throw Error(`Command alias must be a string.`)
+        this.alias = data.alias ?? [];
 
         /**
          * Command arguments
-         * @type {Array<Argument>}
+         * @type {?Array<Argument>}
          */
-        this.args = 'args' in data ? this.mapArguments(data.args) : null;
+        this.args = data.args ? this.mapArguments(data.args) : null;
 
         /**
          * Argument count
          * @type {int}
          */
-        this.argsCount = this.args ? this.args.filter(arg => arg.default !== null).lenght : 0;
+        this.argsCount = data.args ? data.args.filter(arg => arg.default !== null).lenght : 0;
     }
 
     /**
@@ -81,6 +76,20 @@ class Command {
             arg.value = ((arg.infinite ? values.join(' ') : values.shift()) ?? arg.default) ?? null;
             return arg
         });
+    }
+
+    /**
+     * Validate command data before loading
+     * @param {CommandInfo} data
+     */
+    static validateData(data) {
+        if (!data.name) throw new Error('Command name cannot be empty.');
+        if (typeof data.name !== 'string') throw new TypeError('Command name must be a string.');
+        if (data.name !== data.name.toLowerCase()) throw new Error('Command name must be in lower case.');
+
+        if (data.alias && (!Array.isArray(data.alias) || data.alias.some(alias => typeof alias !== 'string'))) {
+            throw new TypeError('Command aliases must be an Array of strings.');
+        }
     }
 }
 
