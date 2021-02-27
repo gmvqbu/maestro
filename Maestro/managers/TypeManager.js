@@ -1,6 +1,6 @@
 'use strict';
 
-const BaseType = require('../types/base');
+const BaseType = require('../types/ArgumentType');
 const BaseManager = require("./BaseManager");
 
 /**
@@ -16,9 +16,9 @@ class TypeManager extends BaseManager {
     verify(type) {
         if (!BaseType.prototype.isPrototypeOf(type.prototype)) throw Error(`The provided type must be an object extending BaseType.`);
         type = new type(this.client);
-        this.browseCollectionForConflict(type.name);
+        this.browseCollectionForConflict(type.id);
         return {
-            key: type.name,
+            key: type.id,
             value: type
         }
     }

@@ -1,13 +1,11 @@
 'use strict';
 
-const BaseType = require("./base");
+const BaseType = require("./ArgumentType");
 
 /** Represent string type */
 class StringType extends BaseType {
     constructor(client) {
-        super(client, {
-            name: 'string',
-        })
+        super(client, 'string')
     }
 
     /**
