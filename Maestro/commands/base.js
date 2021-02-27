@@ -1,6 +1,6 @@
 'use strict';
 
-const Argument = require("./argument");
+const Argument = require("./Argument");
 
 /** Represent a command */
 class Command {

@@ -1,7 +1,7 @@
 'use strict';
 
 const Player = require("../../../player/Player");
-const Command = require("../../command");
+const Command = require("../../base");
 
 class StopCommand extends Command {
     constructor(client) {
