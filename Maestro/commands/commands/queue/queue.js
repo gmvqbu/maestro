@@ -7,7 +7,8 @@ class QueueCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'queue',
-            alias: ['playlist', 'list']
+            alias: ['playlist', 'list'],
+            description: "affiche la liste de lecture."
         })
     }
 

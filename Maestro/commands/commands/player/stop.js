@@ -7,7 +7,8 @@ class StopCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'stop',
-            alias: ['disconnect', 'leave']
+            alias: ['disconnect', 'leave'],
+            description: "vide la liste de lecture et arrête le lecteur."
         })
     }
 

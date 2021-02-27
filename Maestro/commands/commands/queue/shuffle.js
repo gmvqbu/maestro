@@ -7,7 +7,8 @@ class ShuffleCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'shuffle',
-            alias: ['random', 'mix', 'sens-dessus-dessous']
+            alias: ['random', 'mix', 'sens-dessus-dessous'],
+            description: "mélange la liste de lecture."
         })
     }
 

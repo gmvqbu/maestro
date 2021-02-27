@@ -7,7 +7,8 @@ class EmptyQueueCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'empty',
-            alias: ['delete', 'reset', 'poubelle']
+            alias: ['delete', 'reset', 'poubelle'],
+            description: "vide la liste de lecture."
         })
     }
 

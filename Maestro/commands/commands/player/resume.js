@@ -7,7 +7,8 @@ class ResumeCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'resume',
-            alias: ['p', 'pluspouce']
+            alias: ['p', 'pluspouce'],
+            description: "reprends la lecture."
         })
     }
 

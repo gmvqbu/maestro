@@ -9,7 +9,8 @@ const Command = require('../../base');
 class PingCommand extends Command {
     constructor(client) {
         super(client, {
-            name: 'ping'
+            name: 'ping',
+            description: "renvoie la latence entre le client et l'API."
         });
     }
 

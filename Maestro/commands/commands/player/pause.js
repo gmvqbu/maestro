@@ -7,7 +7,8 @@ class PauseCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'pause',
-            alias: ['restart', 'pouce']
+            alias: ['restart', 'pouce'],
+            description: "arrête la lecture."
         })
     }
 

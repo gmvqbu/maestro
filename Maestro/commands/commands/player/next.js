@@ -8,6 +8,7 @@ class NextCommand extends Command {
         super(client, {
             name: 'next',
             alias: ['skip', 'passe'],
+            description: "passe la piste en cours de lecture."
         })
     }
 
