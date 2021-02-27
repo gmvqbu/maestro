@@ -8,12 +8,12 @@ class PlayCommand extends Command {
         super(client, {
             name: 'play',
             alias: ['connect', 'join', 'add'],
-            description: "ajoute une piste à la liste de lecture (uniquement les urls youtube).",
+            description: "ajoute une piste à la liste de lecture.",
             args: [
                 {
                     key: 'query',
-                    label: 'URL YouTube',
-                    type: 'yt-url',
+                    label: 'URL YouTube | Mots clés',
+                    type: 'yt-query',
                     infinite: true
                 }
             ]
