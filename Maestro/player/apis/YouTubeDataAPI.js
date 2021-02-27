@@ -14,12 +14,14 @@ class YouTubeDataAPI {
      * Return a list of data from any YouTube Data API Ressource
      * @param {*} ressource
      * @param {Object} params
+     * @returns {Promise<?Object|string>}
      */
-    static async #fetchData(ressource, params) {
+    async #fetchData(ressource, params) {
+        return console.error(`L'accès à l'API est bloqué.`);
         return new Promise(async (resolve, reject) => {
-            ressource.list(params, (err, res) => {
-                if (err) reject(err)
-                if (response) resolve(response.data)
+            ressource.list(params, (error, response) => {
+                if (error) reject(error)
+                if (response) resolve(response.data.items)
             });
         })
     }
@@ -28,16 +30,17 @@ class YouTubeDataAPI {
      * Fetch a YouTube video from a query string
      * @param {string} query
      * @param {int} maxResults
+     * @returns {Promise<?Object|string>}
      */
-    static async fetchVideoFromString(query, maxResults = 1) {
-        return await this.#fetchData(youtube.channels, {
+    async fetchVideoFromSearch(query, maxResults = 1) {
+        return await this.#fetchData(youtube.search, {
             part: 'snippet',
-            chart: 'mostPopular',
             maxResults: maxResults,
-            q: query
+            q: query,
+            regionCode: 'FR',
+            type: 'video',
         })
     }
-y
 }
 
 module.exports = YouTubeDataAPI;
