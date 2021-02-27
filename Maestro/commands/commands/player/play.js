@@ -12,17 +12,16 @@ class PlayCommand extends Command {
                 {
                     key: 'query',
                     label: 'Recherche',
-                    type: 'yt-search',
+                    type: 'yt-url',
                     infinite: true
                 }
             ]
         })
     }
 
-    run(msg, args) {
+    async run(msg, args) {
         const query = 'query' in args ? args.query : null;
-        const player = Player.instance(this.client);
-        return player.play(msg, msg.member.voice.channel ?? null, query)
+        return Player.instance(this.client).play(msg, msg.member.voice.channel, await query)
     }
 }
 
