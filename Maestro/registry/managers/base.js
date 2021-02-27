@@ -79,6 +79,14 @@ class BaseManager {
     }
 
     /**
+     * Wetehr the collection has
+     * @param {*} key
+     */
+    has(key) {
+        return this.collection.has(key);
+    }
+
+    /**
      * Browse the collection for any keyword conflict
      * @param {Array<string>|string} keywords
      * @returns {null}
