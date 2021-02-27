@@ -70,8 +70,8 @@ class Argument {
      * Parse a string value into a neat argument
      * @param {*} value
      */
-    parse(value) {
-        return this.type.parse(value);
+    parse(msg, value) {
+        return this.type.parse(msg, value);
     }
 
     /**
