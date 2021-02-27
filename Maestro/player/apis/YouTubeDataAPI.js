@@ -17,7 +17,6 @@ class YouTubeDataAPI {
      * @returns {Promise<?Object|string>}
      */
     async #fetchData(ressource, params) {
-        return console.error(`L'accès à l'API est bloqué.`);
         return new Promise(async (resolve, reject) => {
             ressource.list(params, (error, response) => {
                 if (error) reject(error)
@@ -33,7 +32,7 @@ class YouTubeDataAPI {
      * @returns {Promise<?Object|string>}
      */
     async fetchVideoFromSearch(query, maxResults = 1) {
-        return await this.#fetchData(youtube.search, {
+        return this.#fetchData(youtube.search, {
             part: 'snippet',
             maxResults: maxResults,
             q: query,
