@@ -16,7 +16,7 @@ class YouTubeDataAPI {
      * @param {Object} params
      * @returns {Promise<?Object|string>}
      */
-    async #fetchData(ressource, params) {
+    static async #fetchData(ressource, params) {
         return new Promise(async (resolve, reject) => {
             ressource.list(params, (error, response) => {
                 if (error) reject(error)
@@ -31,7 +31,7 @@ class YouTubeDataAPI {
      * @param {int} maxResults
      * @returns {Promise<?Object|string>}
      */
-    async fetchVideoFromSearch(query, maxResults = 1) {
+    static async fetchVideoFromSearch(query, maxResults = 1) {
         return this.#fetchData(youtube.search, {
             part: 'snippet',
             maxResults: maxResults,
