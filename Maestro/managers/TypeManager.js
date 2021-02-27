@@ -1,7 +1,7 @@
 'use strict';
 
-const ArgumentType = require('../../argumentTypes/base.js');
-const BaseManager = require("./base");
+const BaseType = require('../types/ArgumentType');
+const BaseManager = require("./BaseManager");
 
 /**
  * Represent the Type Collection manager
@@ -14,7 +14,7 @@ class TypeManager extends BaseManager {
      * @returns {Object}
      */
     verify(type) {
-        if (!ArgumentType.prototype.isPrototypeOf(type.prototype)) throw Error(`The provided type must extends ArgumentType.`);
+        if (!BaseType.prototype.isPrototypeOf(type.prototype)) throw Error(`The provided type must be an object extending BaseType.`);
         type = new type(this.client);
         this.browseCollectionForConflict(type.id);
         return {

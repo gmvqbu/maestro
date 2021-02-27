@@ -4,7 +4,7 @@
 
 const Discord = require("discord.js");
 const Dispatcher = require("./dispatcher");
-const Registry = require("./registry");
+const Registry = require("./registry/registry");
 const { fetchUser } = require("./util/util");
 
 /**

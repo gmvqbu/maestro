@@ -1,7 +1,7 @@
 'use strict';
 
-const Command = require("../../commands/base.js");
-const BaseManager = require("./base");
+const Command = require("../commands/command");
+const BaseManager = require("./BaseManager");
 
 /**
  * Represent the Command Collection manager
@@ -14,7 +14,7 @@ class CommandManager extends BaseManager {
      * @returns {Object}
      */
     verify(command) {
-        if (!Command.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must extend Command.`);
+        if (!Command.prototype.isPrototypeOf(command.prototype)) throw Error(`The provided command must be an object extending Command.`);
         command = new command(this.client);
         const keywords = Array.of(command.name).concat(command.alias ?? null);
         this.browseCollectionForConflict(keywords);
@@ -27,7 +27,7 @@ class CommandManager extends BaseManager {
     /**
      * Fetch a command
      * @param {string} commandName The name or alias of the requested command
-     * @returns {?Object} The fetched command
+     * @returns {Object|null} The fetched command
      */
     get(key) {
         return (super.get(key) ?? this.collection.find(cmd => cmd.alias.includes(key))) ?? null;
