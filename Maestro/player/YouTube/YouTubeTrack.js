@@ -1,6 +1,6 @@
 'use strict';
 
-const Music = require("./BaseTrack");
+const Music = require("../BaseTrack");
 
 class YouTubeTrack extends Music {
     constructor(data) {

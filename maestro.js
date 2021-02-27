@@ -30,6 +30,7 @@ client.on('ready', () => {
     const bot = client.user;
     console.log(`Logged in as ${bot.tag} !`);
     if (bot.username != Config.username) setUsername(bot, Config.username);
+    bot.setActivity('')
 });
 
 client.login(Config.token);

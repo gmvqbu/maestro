@@ -7,9 +7,8 @@
  * Search a video, channel or playlist cost 100 points
  */
 
-const YouTubeDataAPI = require("../apis/YouTubeDataAPI");
-const BaseTrack = require("../tracks/BaseTrack");
-const YouTubeTrack = require("../tracks/YouTubeTrack");
+const YouTubeDataAPI = require("./YouTubeDataAPI");
+const YouTubeTrack = require("./YouTubeTrack");
 
 class YouTubeService {
     constructor(client) {

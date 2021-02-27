@@ -3,9 +3,9 @@
 const { player } = require('../util/constants');
 const Queue = require("./Queue");
 const Voice = require('./Voice');
-const YouTubeService = require('./services/YouTubeService');
+const YouTubeService = require('./YouTube/YouTubeService');
 const { MessageEmbed } = require('discord.js');
-const EmbedTrack = require('./tracks/EmbedTrack');
+const EmbedTrack = require('./Embed/EmbedTrack');
 
 /** Represent the music player */
 class Player {
