@@ -49,7 +49,7 @@ class Dispatcher {
      * @returns {Array<string>} The parsed content
      */
     parseMessage(content) {
-        return content.substring(this.client.prefix.length).split(' ');
+        return content.substring(this.client.prefix.length).replace(/\s+/, ' ').split(' ');
     }
 }
 
