@@ -2,8 +2,6 @@
 
 /** Represent the music queue */
 class Queue extends Array {
-    loop = 'off';
-
     /** Empty the queue */
     empty() {
         return this.splice(0, this.length);
