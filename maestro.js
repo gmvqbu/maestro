@@ -11,7 +11,7 @@ const client = new Client({
 client.registry
     .types.register([
         require('./Maestro/argumentTypes/string'),
-        require('./Maestro/argumentTypes/yt-search')
+        require('./Maestro/argumentTypes/yt-url')
     ])
     .commands.register([
         require('./Maestro/commands/commands/util/ping'),
