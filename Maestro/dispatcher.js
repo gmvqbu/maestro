@@ -15,12 +15,10 @@ class Dispatcher {
      */
     handleMessage(msg) {
         if (!this.shouldHandleMessage(msg)) return;
-        // Begin input treatment
         const parsedMessage = this.parseMessage(msg.content);
         const command = this.registry.commands.get(parsedMessage.shift())
         if (!command) return msg.reply(error('UNKNOWN_COMMAND'));
         const args = command.argsCollector ? command.argsCollector.collect(msg, command, parsedMessage) : null;
-
         Object.defineProperty(msg, 'command', { value: command });
         return command.run(msg, args);
     }
