@@ -1,13 +1,12 @@
 'use strict';
 
-const Player = require("../../player/Player");
-const Command = require("../command");
+const Player = require("../../../player/Player");
+const Command = require("../../command");
 
 class PlayCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'play',
-            group: 'player',
             alias: ['connect', 'join', 'add'],
             args: [
                 {

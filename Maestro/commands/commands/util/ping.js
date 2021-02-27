@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('../command');
+const Command = require('../../command');
 
 /**
  * @class
@@ -9,8 +9,7 @@ const Command = require('../command');
 class PingCommand extends Command {
     constructor(client) {
         super(client, {
-            name: 'ping',
-            group: 'util'
+            name: 'ping'
         });
     }
 

@@ -1,13 +1,12 @@
 'use strict';
 
-const Player = require("../../player/Player");
-const Command = require("../command");
+const Player = require("../../../player/Player");
+const Command = require("../../command");
 
 class NextCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'next',
-            group: 'player',
             alias: ['skip', 'passe'],
         })
     }

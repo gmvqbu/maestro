@@ -14,15 +14,15 @@ client.registry
         require('./Maestro/types/yt-search')
     ])
     .commands.register([
-        require('./Maestro/commands/util/ping'),
-        require('./Maestro/commands/player/play'),
-        require('./Maestro/commands/player/stop'),
-        require('./Maestro/commands/player/pause'),
-        require('./Maestro/commands/player/resume'),
-        require('./Maestro/commands/player/next'),
-        require('./Maestro/commands/queue/queue'),
-        require('./Maestro/commands/queue/empty'),
-        require('./Maestro/commands/queue/shuffle')
+        require('./Maestro/commands/commands/util/ping'),
+        require('./Maestro/commands/commands/player/play'),
+        require('./Maestro/commands/commands/player/stop'),
+        require('./Maestro/commands/commands/player/pause'),
+        require('./Maestro/commands/commands/player/resume'),
+        require('./Maestro/commands/commands/player/next'),
+        require('./Maestro/commands/commands/queue/queue'),
+        require('./Maestro/commands/commands/queue/empty'),
+        require('./Maestro/commands/commands/queue/shuffle')
     ]);
 
 client.on('ready', () => {
