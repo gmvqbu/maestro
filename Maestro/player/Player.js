@@ -105,7 +105,7 @@ class Player {
      */
     async play(msg, channel, query) {
         const track = await this.askService(query);
-        if (!track) msg.reply(`aucune piste n'a été trouvée.`)
+        if (!track) return msg.reply(`cette ressource est introuvable.`)
         await this.connect(msg, channel);
         if (this.status === player.PLAYING) this.addToQueue(msg, track)
         else this.stream(msg, track);
@@ -118,6 +118,10 @@ class Player {
      */
     async stream(msg, track) {
         const stream = await track.getStream();
+        if (!stream) {
+            msg.channel.send(`Une erreur est survenue lors de la lecture de la piste.`);
+            return this.next(msg)
+        }
         stream.on('error', () => {
             msg.channel.send(`Une erreur est survenue lors de la lecture de la piste.`)
             return this.next(msg);
