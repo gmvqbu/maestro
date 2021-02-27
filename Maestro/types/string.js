@@ -16,7 +16,7 @@ class StringType extends BaseType {
      * @returns {Boolean}
      */
     validate(value) {
-        return super.validate(value, /^\w+$/i);
+        return super.validate(value, /^[\w\s]+$/i);
     }
 
     /**
