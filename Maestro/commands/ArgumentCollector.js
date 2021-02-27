@@ -51,7 +51,8 @@ class ArgumentCollector {
         const wrongArgs = given.filter(arg => arg.validate(arg.value) === false);
         if (wrongArgs.length > 0) return msg.reply(error('WRONG_ARGUMENTS', command.name, wrongArgs.map(arg => arg.label)));
 
-        return Object.fromEntries(given.map(arg => [arg.key, arg.parse(msg, arg.value)]));
+        const entries = given.map(arg => [arg.key, arg.parse(msg, arg.value)]);
+        return Object.fromEntries(entries);
     }
 }
 
