@@ -1,7 +1,6 @@
 'use strict';
 
 const { player } = require('../util/constants');
-const Music = require('./tracks/BaseTrack');
 const Queue = require("./Queue");
 const Voice = require('./Voice');
 const YouTubeService = require('./services/YouTubeService');
@@ -112,7 +111,7 @@ class Player {
     /**
      * Stream a media
      * @param {Discord.Message} msg
-     * @param {Music} track
+     * @param {?YouTubeTrack} track
      */
     async stream(msg, track) {
         const stream = await track.getStream();
@@ -179,7 +178,7 @@ class Player {
     async displayQueue(msg) {
         return (this.queue.length > 0)
         ?
-        msg.channel.send(`\`-\` \`${this.queue.map(music => music.title).join("\`\n\`-\` \`")}\``)
+        msg.channel.send(`\`-\` \`${this.queue.map(track => track.title).join("\`\n\`-\` \`")}\``)
         :
         msg.channel.send(`la liste de lecture est vide.`);
     }
