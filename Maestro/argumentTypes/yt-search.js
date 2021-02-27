@@ -1,11 +1,13 @@
 'use strict';
 
-const BaseType = require("./ArgumentType");
+const BaseType = require("./base");
+const regex = new RegExp(`^https?\\:\\/\\/(www\\.)?(youtube\\.com|youtu\\.?be)\\/.+$`)
+const ytUrlRegex = /^https?\:\/\/(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 
 /** Represent string type */
 class StringType extends BaseType {
     constructor(client) {
-        super(client, 'string')
+        super(client, 'yt-search')
     }
 
     /**
@@ -14,7 +16,7 @@ class StringType extends BaseType {
      * @returns {Boolean}
      */
     validate(value) {
-        return super.validate(value, /^[\w\s]+$/i);
+        return (value.match(ytUrlRegex) || super.validate(value, /^[\w\d\s]+$/i)) ? true : false;
     }
 
     /**
@@ -23,7 +25,7 @@ class StringType extends BaseType {
      * @returns {string}
      */
     format(value) {
-        return String(value);
+        return (value.match(ytUrlRegex) ? value.match(ytUrlRegex)[0] : String(value))
     }
 }
 

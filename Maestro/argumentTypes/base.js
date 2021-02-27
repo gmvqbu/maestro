@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require("../commands/command");
+const Command = require("../commands/base.js");
 
 /** Represent a base type */
 class ArgumentType {

@@ -10,8 +10,8 @@ const client = new Client({
 
 client.registry
     .types.register([
-        require('./Maestro/types/string'),
-        require('./Maestro/types/yt-search')
+        require('./Maestro/argumentTypes/string'),
+        require('./Maestro/argumentTypes/yt-search')
     ])
     .commands.register([
         require('./Maestro/commands/commands/util/ping'),
