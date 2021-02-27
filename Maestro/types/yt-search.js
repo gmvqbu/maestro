@@ -1,6 +1,6 @@
 'use strict';
 
-const { ytUrlRegex } = require("../player/YouTube/Youtube");
+const { ytUrlRegex } = require("../player/YouTubeDataAPI/Youtube");
 const BaseType = require("./base");
 
 /** Represent string type */
@@ -26,7 +26,7 @@ class StringType extends BaseType {
      * @returns {string}
      */
     format(value) {
-        return (value.match(ytUrlRegex) ? value.match(yt)[0] : String(value))
+        return (value.match(ytUrlRegex) ? value.match(ytUrlRegex)[0] : String(value))
     }
 }
 
