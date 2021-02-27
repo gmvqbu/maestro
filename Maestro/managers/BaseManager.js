@@ -12,7 +12,23 @@ class BaseManager {
     collection = new Collection();
 
     constructor(client, registry) {
+        if (!client) throw new Error(`Manager client must be specified.`);
+        if (!registry) throw new Error(`Manager registry must be specified.`);
+
+        /**
+		 * Client that this manager is for
+		 * @name ThisType#client
+		 * @type {MaestroClient}
+		 * @readonly
+		 */
         Object.defineProperty(this, 'client', { value: client });
+
+        /**
+		 * Registry that this manager is for
+		 * @name ThisType#registry
+		 * @type {Registry}
+		 * @readonly
+		 */
         Object.defineProperty(this, 'registry', { value: registry });
     }
 
