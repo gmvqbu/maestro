@@ -1,7 +1,6 @@
 'use strict';
 
 const { MessageEmbed } = require("discord.js");
-const Config = require("../../../config");
 const Command = require("../../base");
 
 class HelpCommand extends Command {
@@ -19,8 +18,9 @@ class HelpCommand extends Command {
         const embed = new MessageEmbed()
             .setColor('#EA2027')
             .setTitle(`Message d'aide`)
-            .setFooter(Config.username)
-            .addField('Commandes', commands.map(cmd => `\`${cmd.name}\` ${cmd.description ? `: ${cmd.description}` : ''}`).join("\n"))
+            .setFooter(this.client.user.username)
+            .setTimestamp(new Date())
+            .addField('Commandes', commands.map(cmd => `\`${this.client.prefix}${cmd.name}\` ${cmd.description ? `: ${cmd.description}` : ''}`).join("\n"))
         msg.reply(embed)
     }
 }
