@@ -20,9 +20,9 @@ class PlayCommand extends Command {
         })
     }
 
-    async run(msg, args) {
+    run(msg, args) {
         const query = 'query' in args ? args.query : null;
-        return Player.instance(this.client).play(msg, msg.member.voice.channel, await query)
+        return Player.instance(this.client).play(msg, msg.member.voice.channel, query)
     }
 }
 
