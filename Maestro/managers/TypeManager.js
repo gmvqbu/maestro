@@ -14,7 +14,8 @@ class TypeManager extends BaseManager {
      */
     registerDefaults() {
         return super.register([
-            require('../types/string')
+            require('../types/string'),
+            require('../types/yt-search')
         ])
     }
 
