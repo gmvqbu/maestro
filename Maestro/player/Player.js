@@ -3,7 +3,7 @@
 const { player } = require('../util/constants');
 const Queue = require("./Queue");
 const Voice = require('./Voice');
-const YouTubeService = require('./YouTube/YouTubeService');
+const YouTube = require('./YouTube/YouTubeService');
 const { MessageEmbed } = require('discord.js');
 const EmbedTrack = require('./Embed/EmbedTrack');
 
@@ -191,7 +191,7 @@ class Player {
      */
     async askService(query) {
         if (query instanceof MessageEmbed && query.provider.name === 'YouTube') return new EmbedTrack(await query);
-        else if (typeof query === 'string') return await YouTubeService.video(query);
+        else if (typeof query === 'string') return await YouTube.video(query);
         return null;
     }
 
