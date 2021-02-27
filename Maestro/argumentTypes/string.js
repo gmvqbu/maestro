@@ -1,9 +1,9 @@
 'use strict';
 
-const BaseType = require("./base");
+const ArgumentType = require("./base");
 
 /** Represent string type */
-class StringType extends BaseType {
+class StringArgumentType extends ArgumentType {
     constructor(client) {
         super(client, 'string')
     }
@@ -27,4 +27,4 @@ class StringType extends BaseType {
     }
 }
 
-module.exports = StringType;
+module.exports = StringArgumentType;

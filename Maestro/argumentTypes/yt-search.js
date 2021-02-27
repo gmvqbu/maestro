@@ -1,11 +1,11 @@
 'use strict';
 
-const BaseType = require("./base");
+const ArgumentType = require("./base");
 const regex = new RegExp(`^https?\\:\\/\\/(www\\.)?(youtube\\.com|youtu\\.?be)\\/.+$`)
 const ytUrlRegex = /^https?\:\/\/(www\.)?(youtube\.com|youtu\.?be)\/.+$/
 
 /** Represent string type */
-class StringType extends BaseType {
+class YouTubeQueryArgumentType extends ArgumentType {
     constructor(client) {
         super(client, 'yt-search')
     }
@@ -29,4 +29,4 @@ class StringType extends BaseType {
     }
 }
 
-module.exports = StringType;
+module.exports = YouTubeQueryArgumentType;
