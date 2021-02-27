@@ -1,14 +1,21 @@
 'use strict';
 
-const Command = require("../commands/base.js");
-
 /** Represent a base type */
 class ArgumentType {
+    /**
+     * @param {MaestroClient} client
+     * @param {?string} id
+     */
     constructor(client, id) {
         if(!client) throw new Error('A client must be specified.');
 		if(typeof id !== 'string') throw new Error('Argument type ID must be a string.');
 		if(id !== id.toLowerCase()) throw new Error('Argument type ID must be lowercase.');
 
+        /**
+         * @name ArgumentType#client
+         * @type {MaestroClient}
+         * @readonly
+         */
 		Object.defineProperty(this, 'client', { value: client });
 
 		/**
