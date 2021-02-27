@@ -12,7 +12,7 @@ client.registry
     .types.register([
         require('./Maestro/argumentTypes/string'),
         require('./Maestro/argumentTypes/command'),
-        require('./Maestro/argumentTypes/yt-url')
+        require('./Maestro/argumentTypes/yt-query')
     ])
     .commands.register([
         require('./Maestro/commands/commands/util/help'),
