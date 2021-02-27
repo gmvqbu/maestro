@@ -56,6 +56,13 @@ class Argument {
          * Wether this argument accept inifinite value
          */
         this.infinite = Boolean(data.infinite);
+
+        /**
+         * The argument format
+         * @type {string}
+         */
+        this.format = this.default ? `[${this.label}]` : `<${this.label}>`;
+        console.log(this.format)
     }
 
     /**

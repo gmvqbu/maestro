@@ -38,14 +38,13 @@ class HelpCommand extends Command {
     }
 
     helpCommand(msg, command) {
-        const args = command.argsCollector ? command.argsCollector.args : [];
-        const formattedArgs = (args.length > 0) ? args.map(arg => arg.default ? `[${arg.label}=${arg.default}]` : `<${arg.label}>`).join(' ') : '';
+        const args = command.argsCollector ? ` ${command.argsCollector.args.map(arg => arg.format).join(' ')}` : '';
         const embed = new MessageEmbed()
             .setColor('RANDOM')
             .setTitle(`Message d'aide - Commande \`${this.client.prefix}${command.name}\``)
             .setFooter(this.client.user.username)
             .setTimestamp(new Date())
-            .addField('Commande', `\`${this.client.prefix}${command.name}${args.length > 1 ? ` ${formattedArgs}` : ''}\` ${command.description ? `: ${command.description}` : ''}`)
+            .addField('Commande', `\`${this.client.prefix}${command.name}${args}\` ${command.description ? `: ${command.description}` : ''}`)
         if (command.alias.length > 0) {
             embed.addField('Alias', command.alias.map(alias => `\`${this.client.prefix}${alias}\``).join(', '))
         }
